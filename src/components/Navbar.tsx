@@ -203,7 +203,7 @@ export const Navbar: React.FC = () => {
             <span className="text-xs uppercase tracking-[0.5em] text-stone-400 font-bold mb-2">
               The Wedding of
             </span>
-            <span className="text-3xl font-serif font-bold text-stone-900">
+            <span className=" text-[27px] md:text-3xl font-serif font-bold text-stone-900">
               {fullNames}
             </span>
           </div>
@@ -215,7 +215,7 @@ export const Navbar: React.FC = () => {
                 key={item.name}
                 href={item.href}
                 onClick={(e) => scrollToSection(e, item.href)}
-                className="mobile-link text-4xl font-serif italic text-stone-900 hover:text-stone-400 transition-colors py-2"
+                className="mobile-link text-3xl font-serif italic text-stone-900 hover:text-stone-400 transition-colors py-2"
               >
                 {item.name}
               </a>
