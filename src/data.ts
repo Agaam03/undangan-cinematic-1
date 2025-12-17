@@ -7,12 +7,14 @@ export const WEDDING_DATA: WeddingData = {
     description: 'We invite you to celebrate our wedding in Kyoto, Japan.',
   },
   hero: {
-    videoUrl: '../June-and-July.mp4', // Ensure this file exists in public folder
+    videoUrl: '../June-and-July.mp4',
     targetDate: '2026-07-14T00:00:00',
     location: 'Kyoto, Japan',
-  },
+    // Tambahkan poster untuk hero
+    posterUrl: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1920&auto=format&fit=crop',
+  } as any, // Bypass type temporarily for the new field
   intro: {
-    title: 'We Invite You To Join Us As We Exchange Vows And Celebrate The Love That Has Brought Us Here',
+    title: 'WE INVITE YOU TO JOIN US AS WE\nEXCHANGE VOWS AND CELEBRATE THE LOVE\nTHAT HAS BROUGHT US HERE.',
     description: 'A journey years in the making, now culminating in a moment we can\'t wait to share with you. We hope you can join us in the beautiful city of Kyoto.',
     verseText: '"And of His signs is that He created for you from yourselves mates that you may find tranquillity in them; and He placed between you affection and mercy."',
     verseReference: 'Ar-Rum 30:21',
@@ -20,7 +22,7 @@ export const WEDDING_DATA: WeddingData = {
   couple: {
     groom: {
       name: 'Leo Alexander',
-      firstName: 'Ciputra', // For Hero Section
+      firstName: 'Ciputra',
       role: 'The Groom',
       handle: '@leo.alexander',
       instagramUrl: 'https://instagram.com',
@@ -28,7 +30,7 @@ export const WEDDING_DATA: WeddingData = {
     },
     bride: {
       name: 'Kaia Amara',
-      firstName: 'Azizah', // For Hero Section
+      firstName: 'Azizah',
       role: 'The Bride',
       handle: '@kaia.amara',
       instagramUrl: 'https://instagram.com',
@@ -51,7 +53,8 @@ export const WEDDING_DATA: WeddingData = {
       title: 'Ceremony &\nReception',
       imageMain: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop',
       subEvents: [
- 
+        { time: '3:00 PM', title: 'Ceremony', location: 'at Kinkaku-ji' },
+        { time: '5:00 PM', title: 'Welcome Drink', location: 'at The Ritz-Carlton Kyoto' },
         { time: '6:30 PM', title: 'Reception', location: 'at The Ritz-Carlton Kyoto' },
       ]
     }
@@ -60,7 +63,8 @@ export const WEDDING_DATA: WeddingData = {
     title: 'Our Love Story',
     quote: '"We loved with a love that was more than love."',
     quoteAuthor: '— Edgar Allan Poe',
-    videoUrl: '../June-and-July.mp4',
+    videoUrl: 'https://vjs.zencdn.net/v/oceans.mp4',
+    posterUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop', // Poster story
     estYear: 'Est. 2023',
     stories: [
       {
@@ -72,7 +76,7 @@ export const WEDDING_DATA: WeddingData = {
         content: 'Three years later, under the cherry blossoms of Maruyama Park, Leo got down on one knee. It was simple, private, and absolutely perfect.'
       }
     ]
-  },
+  } as any,
   gallery: {
     title: 'Captured Moments',
     images: [

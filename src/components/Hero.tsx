@@ -16,6 +16,7 @@ interface TimeLeft {
 const Hero: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   // Countdown Logic
   const calculateTimeLeft = (): TimeLeft => {
@@ -51,32 +52,25 @@ const Hero: React.FC = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // 1. PIN THE HERO
-      // This makes the Hero stay fixed while the next sections "stack" on top of it.
-      // Fix: Removed invalid 'zIndex' property from ScrollTrigger.create options
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
         end: "bottom top",
         pin: true,
-        pinSpacing: false, // Important: allows next sections to overlap
+        pinSpacing: false,
       });
 
-      // 2. ANIMATE BLUR AND DARKEN ON SCROLL
-      // As the user scrolls, the hero background gets blurrier and darker
       gsap.to(".hero-fixed-bg", {
-        filter: "blur(12px)  ",
+        filter: "blur(12px) ",
         ease: "none",
         scrollTrigger: {
-          trigger: "body", // Start blurring based on page scroll
+          trigger: "body",
           start: "top top",
           end: "500px top",
           scrub: true,
         },
       });
 
-      // 3. FADE CONTENT ELEMENTS
-      // Content fades out and moves up as you scroll away
       gsap.to(contentRef.current, {
         opacity: 0,
         y: -150,
@@ -90,7 +84,6 @@ const Hero: React.FC = () => {
         },
       });
 
-      // 4. Entrance Animations
       gsap.from(".hero-text-element", {
         y: 60,
         opacity: 0,
@@ -112,40 +105,52 @@ const Hero: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  // Fix: Moved the z-index to the section className to ensure it stays below overlapping sections
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden z-0"
+      className="relative h-screen w-full overflow-hidden z-0 bg-black"
     >
-      {/* BACKGROUND VIDEO */}
-      <div className="hero-fixed-bg absolute inset-0 w-full h-full z-[-1] pointer-events-none overflow-hidden scale-110 bg-black">
+      {/* BACKGROUND VIDEO & POSTER */}
+      <div className="hero-fixed-bg absolute inset-0 w-full h-full z-[-1] pointer-events-none overflow-hidden scale-110">
         <video
-          className="w-full h-full object-cover"
+          className={`w-full h-full object-cover transition-opacity duration-1000 ${
+            videoLoaded ? "opacity-100" : "opacity-0"
+          }`}
           autoPlay
           muted
           loop
           playsInline
+          preload="auto"
+          poster={(WEDDING_DATA.hero as any).posterUrl}
+          onLoadedData={() => setVideoLoaded(true)}
         >
           <source src={WEDDING_DATA.hero.videoUrl} type="video/mp4" />
         </video>
+
+        {/* Placeholder background while video loads */}
+        {!videoLoaded && (
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm"
+            style={{
+              backgroundImage: `url(${(WEDDING_DATA.hero as any).posterUrl})`,
+            }}
+          />
+        )}
+
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-black/20"></div>
       </div>
 
-      {/* CONTENT CONTAINER */}
       <div
         ref={contentRef}
         className="relative h-full w-full flex flex-col items-center justify-between z-10 py-12 px-6"
       >
-        {/* Top Header */}
         <div className="hero-text-element text-center">
           <span className="text-[10px] md:text-xs tracking-[0.5em] uppercase font-bold text-stone-200/80 drop-shadow-lg">
             The Wedding Celebration Of
           </span>
         </div>
 
-        {/* Main Names */}
         <div className="flex flex-col items-center justify-center relative w-full">
           <div className="hero-text-element absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 select-none pointer-events-none">
             <span className="font-serif italic text-[14rem] md:text-[22rem] text-white/5 leading-none pr-4 blur-sm">
@@ -169,12 +174,10 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Glass Bar */}
         <div className="hero-bottom-bar w-full max-w-5xl mx-auto">
           <div className="bg-white/10 border border-white/20 shadow-2xl rounded-3xl p-1 flex flex-row items-center justify-between relative overflow-hidden backdrop-blur-xl ring-1 ring-white/10">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 animate-pulse"></div>
 
-            {/* Date Section */}
             <div className="flex items-center gap-3 md:gap-6 px-4 md:px-8 py-3 border-r border-white/10 z-10 shrink-0">
               <span className="font-serif text-4xl md:text-6xl text-white italic drop-shadow-lg">
                 {day}
@@ -189,7 +192,6 @@ const Hero: React.FC = () => {
               </div>
             </div>
 
-            {/* Countdown Section */}
             <div className="flex items-center justify-center gap-4 md:gap-12 px-2 md:px-6 z-10 flex-1">
               {[
                 { label: "Days", value: timeLeft.days },
@@ -208,7 +210,6 @@ const Hero: React.FC = () => {
               ))}
             </div>
 
-            {/* CTA Button */}
             <div className="hidden md:block pr-3 z-10">
               <button className="bg-stone-50 hover:bg-white text-stone-900 px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shadow-xl flex items-center gap-2 group">
                 <span>Save Date</span>

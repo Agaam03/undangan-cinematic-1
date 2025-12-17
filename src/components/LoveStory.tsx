@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { WEDDING_DATA } from "../data";
@@ -8,11 +8,11 @@ import { WEDDING_DATA } from "../data";
 const LoveStory: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { loveStory } = WEDDING_DATA;
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      // Header Text
       gsap.from(".story-header", {
         scrollTrigger: { trigger: ".story-header", start: "top 85%" },
         y: 30,
@@ -22,7 +22,6 @@ const LoveStory: React.FC = () => {
         stagger: 0.1,
       });
 
-      // Video Reveal (Clip Path or Scale)
       gsap.from(".story-video", {
         scrollTrigger: { trigger: ".story-video", start: "top 80%" },
         scale: 0.95,
@@ -31,7 +30,6 @@ const LoveStory: React.FC = () => {
         ease: "power2.out",
       });
 
-      // Footer columns stagger
       gsap.from(".story-col", {
         scrollTrigger: { trigger: ".story-col", start: "top 90%" },
         y: 30,
@@ -49,10 +47,9 @@ const LoveStory: React.FC = () => {
     <section
       ref={containerRef}
       id="love-story"
-      className="py-12 px-6 md:px-12 bg-stone-100 relative"
+      className="py-24 px-6 md:px-12 bg-stone-100 relative"
     >
       <div className="max-w-[90rem] mx-auto">
-        {/* Editorial Header Layout */}
         <div className="story-header flex flex-col md:flex-row items-start justify-between mb-16 gap-8 border-b border-stone-200 pb-8">
           <div className="max-w-2xl">
             <span className="text-xs font-sans tracking-[0.4em] uppercase text-stone-800 font-bold block mb-4">
@@ -72,26 +69,32 @@ const LoveStory: React.FC = () => {
           </div>
         </div>
 
-        {/* Cinematic Video Container */}
         <div className="story-video relative w-full aspect-video overflow-hidden group shadow-2xl bg-black rounded-sm">
-          {/* Decorative Frame */}
           <div className="absolute inset-0 border-[1px] border-white/20 z-20 pointer-events-none m-4 md:m-8"></div>
 
-          {/* Wrapper for video - using standard HTML5 video tag */}
-          <div className="story-video-inner w-full h-full relative">
+          <div className="story-video-inner w-full h-full relative flex items-center justify-center">
+            {/* Loading Indicator while buffering */}
+            {!isVideoReady && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center">
+                <div className="w-12 h-12 border-4 border-stone-300 border-t-stone-900 rounded-full animate-spin"></div>
+              </div>
+            )}
+
             <video
               src={loveStory.videoUrl}
-              className="w-full h-full object-cover"
+              className={`w-full h-full object-cover transition-opacity duration-700 ${
+                isVideoReady ? "opacity-100" : "opacity-40"
+              }`}
+              poster={(loveStory as any).posterUrl}
               controls
               playsInline
               loop
               muted
-              autoPlay
+              onCanPlayThrough={() => setIsVideoReady(true)}
             />
           </div>
         </div>
 
-        {/* Narrative Footer */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-12">
           {loveStory.stories.map((story, idx) => (
             <div key={idx} className="story-col col-span-1">
