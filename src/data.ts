@@ -7,7 +7,7 @@ export const WEDDING_DATA: WeddingData = {
     description: 'We invite you to celebrate our wedding in Kyoto, Japan.',
   },
   hero: {
-    videoUrl: '../June-and-July.mp4',
+    videoUrl: "https://res.cloudinary.com/dyk3nghtf/video/upload/f_auto,q_auto:best/Engagement_day_ghdwkw.mp4",
     targetDate: '2026-07-14T00:00:00',
     location: 'Kyoto, Japan',
     // Tambahkan poster untuk hero
@@ -63,7 +63,7 @@ export const WEDDING_DATA: WeddingData = {
     title: 'Our Love Story',
     quote: '"We loved with a love that was more than love."',
     quoteAuthor: '— Edgar Allan Poe',
-    videoUrl: 'https://vjs.zencdn.net/v/oceans.mp4',
+    videoUrl: "https://res.cloudinary.com/dyk3nghtf/video/upload/f_auto,q_auto:best/Engagement_day_ghdwkw.mp4",
     posterUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop', // Poster story
     estYear: 'Est. 2023',
     stories: [

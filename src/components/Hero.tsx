@@ -124,7 +124,7 @@ const Hero: React.FC = () => {
           poster={(WEDDING_DATA.hero as any).posterUrl}
           onLoadedData={() => setVideoLoaded(true)}
         >
-          <source src={WEDDING_DATA.hero.videoUrl} type="video/mp4" />
+          <source src={WEDDING_DATA.hero.videoUrl} />
         </video>
 
         {/* Placeholder background while video loads */}

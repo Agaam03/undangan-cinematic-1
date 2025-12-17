@@ -89,6 +89,7 @@ const LoveStory: React.FC = () => {
               controls
               playsInline
               loop
+              autoPlay
               muted
               onCanPlayThrough={() => setIsVideoReady(true)}
             />
