@@ -44,7 +44,7 @@ const Intro: React.FC = () => {
     // Added 'relative' and 'z-10' to ensure this section slides OVER the pinned Hero
     <section
       ref={containerRef}
-      className="relative z-10 py-24 px-6 md:px-12 bg-stone-100 text-center space-y-20"
+      className="relative z-10 py-24 px-6 md:px-12 bg-stone-100/50 backdrop-blur-sm text-center space-y-20"
     >
       <div className="max-w-6xl mx-auto">
         {/* Introduction */}

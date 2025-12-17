@@ -3,14 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ArrowRight } from "lucide-react";
-import dynamic from "next/dynamic";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { WEDDING_DATA } from "../data";
-
-// Dynamically import ReactPlayer to fix hydration issues and type errors
-const ReactPlayer = dynamic(() => import("react-player"), {
-  ssr: false,
-}) as React.ComponentType<any>;
 
 interface TimeLeft {
   days: number;
@@ -41,7 +35,6 @@ const Hero: React.FC = () => {
   };
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
-  const [isClient, setIsClient] = useState(false);
 
   // Format date for display (e.g. 14 July 2026)
   const eventDate = new Date(WEDDING_DATA.hero.targetDate);
@@ -50,7 +43,6 @@ const Hero: React.FC = () => {
   const year = eventDate.getFullYear();
 
   useEffect(() => {
-    setIsClient(true);
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
@@ -121,38 +113,23 @@ const Hero: React.FC = () => {
       {/* Hero Content - This gets pinned */}
       <section
         ref={heroRef}
-        className="relative h-full w-full flex flex-col items-center justify-between overflow-hidden bg-stone-50 z-100"
+        className="relative h-full w-full flex flex-col items-center justify-between overflow-hidden bg-stone-50 z-0"
       >
         {/* Background Image Layer */}
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="hero-bg w-full h-full relative">
-            {/* Video Background */}
-            {isClient && (
-              <ReactPlayer
-                src={WEDDING_DATA.hero.videoUrl}
-                width="100%"
-                height="100%"
-                className="react-player absolute top-0 left-0 object-cover"
-                playing
-                loop
+          <div className="hero-bg w-full h-full relative overflow-hidden">
+            {/* Video Background via HTML5 Video Tag */}
+            <div className="absolute inset-0 w-full h-full">
+              <video
+                className="w-full h-full object-cover"
+                autoPlay
                 muted
-                playsinline
-                controls={false}
-                config={
-                  {
-                    file: {
-                      attributes: {
-                        style: {
-                          objectFit: "cover",
-                          width: "100%",
-                          height: "100%",
-                        },
-                      },
-                    },
-                  } as any
-                }
-              />
-            )}
+                loop
+                playsInline
+              >
+                <source src={WEDDING_DATA.hero.videoUrl} />
+              </video>
+            </div>
 
             {/* Dark Cinematic Overlay */}
             <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]"></div>
@@ -261,4 +238,4 @@ const Hero: React.FC = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(Hero), { ssr: false });
+export default Hero;
