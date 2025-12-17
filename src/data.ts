@@ -12,7 +12,7 @@ export const WEDDING_DATA: WeddingData = {
     location: 'Kyoto, Japan',
   },
   intro: {
-    title: 'WE INVITE YOU TO JOIN US AS WE EXCHANGE VOWS AND CELEBRATE THE LOVE THAT HAS BROUGHT US HERE.',
+    title: 'We Invite You To Join Us As We Exchange Vows And Celebrate The Love That Has Brought Us Here',
     description: 'A journey years in the making, now culminating in a moment we can\'t wait to share with you. We hope you can join us in the beautiful city of Kyoto.',
     verseText: '"And of His signs is that He created for you from yourselves mates that you may find tranquillity in them; and He placed between you affection and mercy."',
     verseReference: 'Ar-Rum 30:21',

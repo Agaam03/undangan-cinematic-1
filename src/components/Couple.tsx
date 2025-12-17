@@ -65,10 +65,11 @@ const Couple: React.FC = () => {
   }, []);
 
   return (
+    // Changed bg-stone-50 to bg-stone-50/70 backdrop-blur-sm
     <section
       ref={containerRef}
       id="couple"
-      className="py-24 px-6 md:px-12 bg-stone-50 overflow-hidden"
+      className="relative py-24 px-6 md:px-12 bg-stone-100 backdrop-blur-sm   overflow-hidden"
     >
       {/* Used max-w-7xl for a very wide layout */}
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 md:gap-24 justify-center items-center md:items-start">

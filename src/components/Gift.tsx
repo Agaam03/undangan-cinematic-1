@@ -36,10 +36,11 @@ const GiftSection: React.FC = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="py-24 px-4 bg-stone-50">
+    // Changed bg-stone-50 to bg-stone-50/70 backdrop-blur-sm
+    <section ref={containerRef} className="py-24 px-4 bg-stone-100 relative">
       <div className="max-w-4xl mx-auto">
         {/* Main Card Container */}
-        <div className="gift-card bg-white border border-stone-200 shadow-2xl p-8 md:p-16 relative text-center">
+        <div className="gift-card bg-white/90 backdrop-blur-md border border-stone-200 shadow-2xl p-8 md:p-16 relative text-center">
           {/* Floating Icon */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg border border-stone-200">
             <Gift className="w-6 h-6 text-stone-900" />

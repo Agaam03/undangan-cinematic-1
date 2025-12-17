@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { WEDDING_DATA } from "@/data";
+import { WEDDING_DATA } from "../data";
 
 const Gallery: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -55,10 +55,11 @@ const Gallery: React.FC = () => {
   }, []);
 
   return (
+    // Changed bg-stone-100 to bg-stone-50/80 backdrop-blur-sm
     <section
       ref={containerRef}
       id="gallery"
-      className="py-20 bg-stone-100 overflow-hidden"
+      className="py-20 bg-stone-50 relative overflow-hidden"
     >
       <div className="max-w-[90rem] mx-auto px-4 md:px-8">
         <div className="text-center mb-16">

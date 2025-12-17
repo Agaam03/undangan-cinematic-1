@@ -12,7 +12,7 @@ import { Navbar } from "../components/Navbar";
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900 selection:bg-stone-200 selection:text-stone-900 overflow-x-hidden">
+    <div className="min-h-screen  text-stone-900  selection:text-stone-900 overflow-x-hidden">
       <Navbar />
       <main>
         <Hero />

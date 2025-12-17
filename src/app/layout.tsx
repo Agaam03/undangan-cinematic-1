@@ -63,10 +63,7 @@ export default function RootLayout({
           }}
         />
         <style>{`
-          body {
-            background-color: #F9F8F6;
-            color: #000000;
-          }
+ 
           .vertical-text {
             writing-mode: vertical-lr;
             text-orientation: mixed;
@@ -90,7 +87,7 @@ export default function RootLayout({
           }
         `}</style>
       </head>
-      <body>
+      <body className="bg-black">
         <div id="root">{children}</div>
       </body>
     </html>

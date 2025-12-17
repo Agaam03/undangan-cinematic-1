@@ -61,14 +61,15 @@ const Schedule: React.FC = () => {
   }, []);
 
   return (
+    // Changed bg-stone-100 to bg-stone-50/80 backdrop-blur-sm
     <section
       ref={containerRef}
-      className="relative flex flex-col justify-center items-center py-24 bg-stone-100 overflow-hidden min-h-screen"
+      className="relative flex flex-col justify-center items-center py-24 bg-stone-50 overflow-hidden min-h-screen"
       id="roundown-acara"
     >
       {/* Vertical Title */}
       <h1
-        className="vertical-title hidden lg:block absolute left-48 top-32 text-3xl font-sans tracking-[0.5em] uppercase text-stone-800 font-bold z-10  "
+        className="vertical-title hidden lg:block absolute left-8 top-32 text-xs font-sans tracking-[0.5em] uppercase text-stone-400 font-bold z-10"
         style={{
           writingMode: "vertical-rl",
           textOrientation: "mixed",
@@ -100,7 +101,7 @@ const Schedule: React.FC = () => {
                 {isEven ? (
                   // Layout A (Like Akad Nikah)
                   <>
-                    <div className="parallax-wrapper w-2/3 aspect-[3/4] overflow-hidden shadow-2xl border border-stone-200 relative">
+                    <div className="parallax-wrapper w-2/3 aspect-[3/4] overflow-hidden shadow-2xl   relative">
                       <img
                         src={event.imageMain}
                         alt={event.title.replace("\n", " ")}
@@ -108,7 +109,7 @@ const Schedule: React.FC = () => {
                       />
                     </div>
                     {event.imageDetail && (
-                      <div className="w-1/3 aspect-square overflow-hidden mb-8 -ml-8 z-10 border-4 border-stone-100 shadow-xl">
+                      <div className="w-1/3 aspect-square overflow-hidden  z-10   shadow-xl">
                         <img
                           src={event.imageDetail}
                           alt="Detail"
@@ -119,7 +120,7 @@ const Schedule: React.FC = () => {
                   </>
                 ) : (
                   // Layout B (Like Reception)
-                  <div className="parallax-wrapper w-full md:w-[85%] aspect-[3/4] overflow-hidden relative shadow-2xl border border-stone-200">
+                  <div className="parallax-wrapper w-full md:w-[85%] aspect-[3/4] overflow-hidden relative shadow-2xl">
                     <img
                       src={event.imageMain}
                       alt={event.title.replace("\n", " ")}
@@ -130,12 +131,12 @@ const Schedule: React.FC = () => {
               </div>
 
               {/* Content Side */}
-              <div className="w-full md:w-1/2 flex flex-col items-center justify-center text-center space-y-6">
+              <div className="w-full md:w-1/3 mx-auto flex flex-col items-center justify-center text-center space-y-6  ">
                 <p className="text-xl md:text-2xl font-sans tracking-[0.2em] uppercase text-stone-600 font-bold mb-2">
                   {event.date}
                 </p>
 
-                <h1 className="text-5xl md:text-7xl font-serif text-stone-900 uppercase tracking-widest leading-snug font-medium whitespace-pre-line">
+                <h1 className="text-5xl md:text-7xl font-serif text-stone-900 uppercase tracking-widest leading-snug font-bold whitespace-pre-line">
                   {event.title}
                 </h1>
 
@@ -147,7 +148,7 @@ const Schedule: React.FC = () => {
                         <span className="font-sans text-lg md:text-xl font-bold text-stone-800 tracking-widest mb-2">
                           {sub.time}
                         </span>
-                        <p className="font-serif text-2xl text-stone-900">
+                        <p className="font-serif text-2xl text-stone-900 font-bold">
                           {sub.title}
                         </p>
                         <p className="font-serif italic text-stone-800 text-base font-medium border-b border-transparent hover:border-stone-500 transition-colors cursor-pointer">

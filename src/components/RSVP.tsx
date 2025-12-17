@@ -93,10 +93,11 @@ const RSVP: React.FC = () => {
   };
 
   return (
+    // Changed bg-stone-100 to bg-stone-50/80 backdrop-blur-sm
     <section
       ref={containerRef}
       id="ucapan-rsvp"
-      className="py-24 px-6 md:px-12 bg-stone-100 border-t border-stone-200"
+      className="py-24 px-6 md:px-12 bg-stone-50 relative"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24">
@@ -148,7 +149,7 @@ const RSVP: React.FC = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    className="block w-full border-0 border-b border-stone-300 bg-transparent py-3 text-stone-900 focus:border-stone-900 focus:ring-0 text-xl font-serif placeholder:text-stone-800 transition-all font-medium"
+                    className="block w-full border-0 border-b border-stone-300 bg-transparent py-3 text-stone-900 focus:border-stone-900 focus:ring-0 text-xl font-serif placeholder:text-stone-500 transition-all font-medium"
                     placeholder="Your Name"
                   />
                 </div>
@@ -210,7 +211,7 @@ const RSVP: React.FC = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    className="block w-full border-0 border-b border-stone-300 bg-transparent py-3 text-stone-900 focus:border-stone-900 focus:ring-0 text-xl font-serif placeholder:text-stone-800 resize-none font-medium"
+                    className="block w-full border-0 border-b border-stone-300 bg-transparent py-3 text-stone-900 focus:border-stone-900 focus:ring-0 text-xl font-serif placeholder:text-stone-500 resize-none font-medium"
                     placeholder="Write a message for the couple..."
                   />
                 </div>
@@ -230,7 +231,7 @@ const RSVP: React.FC = () => {
           </div>
 
           {/* Right Column: Message Wall */}
-          <div className="rsvp-msg-col order-1 lg:order-2 bg-white p-8 md:p-12 border border-stone-200 h-[650px] flex flex-col relative shadow-xl">
+          <div className="rsvp-msg-col order-1 lg:order-2 bg-white/90 backdrop-blur-md p-8 md:p-12 border border-stone-200 h-[650px] flex flex-col relative shadow-xl">
             <div className="mb-8 flex items-end justify-between border-b border-stone-200 pb-6">
               <div>
                 <h3 className="font-serif text-3xl md:text-4xl text-stone-900 font-medium">
@@ -240,7 +241,7 @@ const RSVP: React.FC = () => {
                   {messages.length} Messages
                 </p>
               </div>
-              <MessageSquare className="w-6 h-6 text-stone-800" />
+              <MessageSquare className="w-6 h-6 text-stone-500" />
             </div>
 
             {/* Scrollable Area */}
@@ -253,7 +254,7 @@ const RSVP: React.FC = () => {
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-stone-800 border border-stone-200">
+                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-stone-500 border border-stone-200">
                         <User className="w-5 h-5" />
                       </div>
                       <div>
@@ -264,7 +265,7 @@ const RSVP: React.FC = () => {
                           className={`inline-block px-2 py-0.5 text-[9px] uppercase tracking-wider font-bold rounded-sm ${
                             msg.attendance === "attending"
                               ? "bg-stone-200 text-stone-800"
-                              : "bg-stone-200 text-stone-800"
+                              : "bg-stone-200 text-stone-500"
                           }`}
                         >
                           {msg.attendance === "attending"
@@ -273,7 +274,7 @@ const RSVP: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <span className="text-[10px] text-stone-800 font-sans font-bold">
+                    <span className="text-[10px] text-stone-500 font-sans font-bold">
                       {msg.date}
                     </span>
                   </div>
@@ -285,7 +286,7 @@ const RSVP: React.FC = () => {
             </div>
 
             {/* Decorative Fade at Bottom */}
-            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white/90 to-transparent pointer-events-none"></div>
           </div>
         </div>
       </div>

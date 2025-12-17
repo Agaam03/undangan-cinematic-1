@@ -1,23 +1,15 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-import dynamic from "next/dynamic";
 import { WEDDING_DATA } from "../data";
-
-const ReactPlayer = dynamic(() => import("react-player"), {
-  ssr: false,
-}) as React.ComponentType<any>;
 
 const LoveStory: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { loveStory } = WEDDING_DATA;
-  const [hasWindow, setHasWindow] = useState(false);
 
   useEffect(() => {
-    setHasWindow(true);
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
       // Header Text
@@ -39,10 +31,6 @@ const LoveStory: React.FC = () => {
         ease: "power2.out",
       });
 
-      // Note: Removed the parallax scale/movement on the video inner container
-      // to ensure the video fits perfectly 100% width/height without black bars
-      // caused by aspect ratio mismatches in the previous parallax setup.
-
       // Footer columns stagger
       gsap.from(".story-col", {
         scrollTrigger: { trigger: ".story-col", start: "top 90%" },
@@ -61,11 +49,11 @@ const LoveStory: React.FC = () => {
     <section
       ref={containerRef}
       id="love-story"
-      className="py-24 px-6 md:px-12 bg-stone-50 border-t border-stone-200"
+      className="py-12 px-6 md:px-12 bg-stone-100 relative"
     >
       <div className="max-w-[90rem] mx-auto">
         {/* Editorial Header Layout */}
-        <div className="story-header flex flex-col md:flex-row   justify-between mb-16 gap-8 border-b border-stone-200 pb-8">
+        <div className="story-header flex flex-col md:flex-row items-start justify-between mb-16 gap-8 border-b border-stone-200 pb-8">
           <div className="max-w-2xl">
             <span className="text-xs font-sans tracking-[0.4em] uppercase text-stone-800 font-bold block mb-4">
               The Journey
@@ -85,24 +73,21 @@ const LoveStory: React.FC = () => {
         </div>
 
         {/* Cinematic Video Container */}
-        {/* Removed 'aspect-video' from parent and handled sizing to ensure full coverage */}
         <div className="story-video relative w-full aspect-video overflow-hidden group shadow-2xl bg-black rounded-sm">
           {/* Decorative Frame */}
           <div className="absolute inset-0 border-[1px] border-white/20 z-20 pointer-events-none m-4 md:m-8"></div>
 
-          {/* Wrapper for player - set to full width/height of container */}
+          {/* Wrapper for video - using standard HTML5 video tag */}
           <div className="story-video-inner w-full h-full relative">
-            {hasWindow && (
-              <ReactPlayer
-                src={loveStory.videoUrl}
-                width="100%"
-                height="100%"
-                controls={true}
-                autoPlay
-                className="react-player"
-                style={{ position: "absolute", top: 0, left: 0 }}
-              />
-            )}
+            <video
+              src={loveStory.videoUrl}
+              className="w-full h-full object-cover"
+              controls
+              playsInline
+              loop
+              muted
+              autoPlay
+            />
           </div>
         </div>
 

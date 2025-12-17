@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
@@ -16,11 +16,9 @@ export const Navbar: React.FC = () => {
     { name: "Gallery", href: "#gallery" },
     { name: "RSVP", href: "#ucapan-rsvp" },
   ];
-
+  
   // Construct Initials (e.g., C & A)
-  const initials = `${WEDDING_DATA.couple.groom.firstName.charAt(
-    0
-  )} & ${WEDDING_DATA.couple.bride.firstName.charAt(0)}`;
+  const initials = `${WEDDING_DATA.couple.groom.firstName.charAt(0)} & ${WEDDING_DATA.couple.bride.firstName.charAt(0)}`;
   const fullNames = `${WEDDING_DATA.couple.groom.firstName} & ${WEDDING_DATA.couple.bride.firstName}`;
 
   useEffect(() => {
@@ -28,9 +26,9 @@ export const Navbar: React.FC = () => {
     if (!nav) return;
 
     // Initial state: Hidden above the viewport
-    gsap.set(nav, {
-      yPercent: -100,
-      autoAlpha: 0,
+    gsap.set(nav, { 
+      yPercent: -100, 
+      autoAlpha: 0 
     });
 
     const handleScroll = () => {
@@ -58,7 +56,7 @@ export const Navbar: React.FC = () => {
           boxShadow: "0 10px 40px -10px rgba(0, 0, 0, 0.05)",
           duration: 0.5,
           ease: "power3.out",
-          overwrite: "auto",
+          overwrite: "auto"
         });
       } else {
         // Slide Out (Hidden State)
@@ -69,7 +67,7 @@ export const Navbar: React.FC = () => {
           width: "100%", // Reset width while hiding to prevent layout jumps
           duration: 0.4,
           ease: "power3.in",
-          overwrite: "auto",
+          overwrite: "auto"
         });
       }
     };
@@ -88,12 +86,7 @@ export const Navbar: React.FC = () => {
         >
           {/* Logo */}
           <div className="text-xl md:text-2xl font-serif font-bold tracking-tight shrink-0 flex items-center">
-            <a
-              href="#"
-              className="text-stone-900 hover:text-stone-500 transition-colors"
-            >
-              {initials}
-            </a>
+            <a href="#" className="text-stone-900 hover:text-stone-500 transition-colors">{initials}</a>
           </div>
 
           {/* Desktop Navigation Links */}
@@ -111,7 +104,7 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button
+          <button 
             className="md:hidden p-1 text-stone-900"
             onClick={() => setMobileMenuOpen(true)}
           >
@@ -124,9 +117,7 @@ export const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[60] bg-stone-50 flex flex-col p-8 md:hidden animate-in slide-in-from-top-10 fade-in duration-300">
           <div className="flex justify-between items-center mb-12">
-            <span className="text-2xl font-serif font-bold text-stone-900">
-              {fullNames}
-            </span>
+            <span className="text-2xl font-serif font-bold text-stone-900">{fullNames}</span>
             <button
               onClick={() => setMobileMenuOpen(false)}
               className="p-2 bg-white rounded-full text-stone-900 border border-stone-200"
@@ -145,7 +136,7 @@ export const Navbar: React.FC = () => {
                 {item.name}
               </a>
             ))}
-            <a
+            <a 
               href="#ucapan-rsvp"
               onClick={() => setMobileMenuOpen(false)}
               className="mt-8 px-8 py-3 border border-stone-900 text-stone-900 font-sans text-xs uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-colors"
