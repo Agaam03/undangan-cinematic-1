@@ -1,3 +1,4 @@
+
 export interface CoupleProfile {
   name: string;
   firstName: string; // Used for Hero big text
@@ -51,6 +52,8 @@ export interface WeddingData {
     videoUrl: string;
     targetDate: string; // YYYY-MM-DDTHH:mm:ss for countdown
     location: string;
+    // Added posterUrl to fix type error in components/SplashScreen.tsx and components/Hero.tsx
+    posterUrl?: string;
   };
   intro: {
     title: string;
@@ -70,6 +73,8 @@ export interface WeddingData {
     videoUrl: string;
     stories: StoryItem[];
     estYear: string;
+    // Added posterUrl to fix type error in components/LoveStory.tsx
+    posterUrl?: string;
   };
   gallery: {
     title: string;
@@ -92,5 +97,7 @@ export interface WeddingData {
     hashtags: string[];
     socialLinks: { platform: string; url: string }[];
     backgroundImage: string;
+    // Added videoUrl to support properties provided in data.ts
+    videoUrl?: string;
   };
 }

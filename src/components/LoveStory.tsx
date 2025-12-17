@@ -5,10 +5,43 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { WEDDING_DATA } from "../data";
 
-const LoveStory: React.FC = () => {
+interface LoveStoryProps {
+  isOpened?: boolean;
+  isMuted?: boolean;
+}
+
+const LoveStory: React.FC<LoveStoryProps> = ({
+  isOpened = false,
+  isMuted = true,
+}) => {
   const containerRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { loveStory } = WEDDING_DATA;
   const [isVideoReady, setIsVideoReady] = useState(false);
+
+  // Sinkronisasi status muted dengan prop isMuted
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+
+      // Jika tidak muted dan sudah dibuka, pastikan video berputar
+      if (!isMuted && isOpened) {
+        videoRef.current.play().catch((err) => {
+          console.log("Play interrupted or blocked:", err);
+        });
+      }
+    }
+  }, [isMuted, isOpened]);
+
+  // Logika Awal saat Undangan Dibuka (dari permintaan sebelumnya)
+  useEffect(() => {
+    if (isOpened && videoRef.current) {
+      // Kita tetap menjalankan play() di sini untuk inisialisasi awal
+      videoRef.current.play().catch((error) => {
+        console.log("Initial autoplay blocked:", error);
+      });
+    }
+  }, [isOpened]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -47,7 +80,7 @@ const LoveStory: React.FC = () => {
     <section
       ref={containerRef}
       id="love-story"
-      className="py-24 px-6 md:px-12 bg-stone-100 relative"
+      className="py-20 px-6 md:px-12 bg-stone-100 relative"
     >
       <div className="max-w-[90rem] mx-auto">
         <div className="story-header flex flex-col md:flex-row items-start justify-between mb-16 gap-8 border-b border-stone-200 pb-8">
@@ -81,6 +114,7 @@ const LoveStory: React.FC = () => {
             )}
 
             <video
+              ref={videoRef}
               src={loveStory.videoUrl}
               className={`w-full h-full object-cover transition-opacity duration-700 ${
                 isVideoReady ? "opacity-100" : "opacity-40"
@@ -90,7 +124,7 @@ const LoveStory: React.FC = () => {
               playsInline
               loop
               autoPlay
-              muted
+              muted={isMuted} // Menggunakan prop isMuted
               onCanPlayThrough={() => setIsVideoReady(true)}
             />
           </div>
@@ -107,12 +141,11 @@ const LoveStory: React.FC = () => {
               </p>
             </div>
           ))}
-
-          <div className="story-col col-span-1 md:text-right flex flex-col justify-end">
-            <p className="font-serif italic text-3xl text-stone-600 font-medium">
-              {loveStory.estYear}
-            </p>
-          </div>
+        </div>
+        <div className="story-col col-span-1 md:text-right flex flex-col justify-end mt-3">
+          <p className="font-serif italic text-3xl text-stone-600 font-medium">
+            {loveStory.estYear}
+          </p>
         </div>
       </div>
     </section>

@@ -1,18 +1,16 @@
 import { WeddingData } from "../types";
 
- 
 export const WEDDING_DATA: WeddingData = {
   metadata: {
     title: 'Ciputra & Azizah - A Journey Begins',
     description: 'We invite you to celebrate our wedding in Kyoto, Japan.',
   },
   hero: {
-    videoUrl: "https://res.cloudinary.com/dyk3nghtf/video/upload/f_auto,q_auto:best/Engagement_day_ghdwkw.mp4",
+    videoUrl: "https://res.cloudinary.com/dyk3nghtf/video/upload/f_auto,q_auto:best,w_1920/Engagement_day_ghdwkw.mp4",
     targetDate: '2026-07-14T00:00:00',
     location: 'Kyoto, Japan',
-    // Tambahkan poster untuk hero
-    posterUrl: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1920&auto=format&fit=crop',
-  } as any, // Bypass type temporarily for the new field
+    posterUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop',
+  },
   intro: {
     title: 'WE INVITE YOU TO JOIN US AS WE\nEXCHANGE VOWS AND CELEBRATE THE LOVE\nTHAT HAS BROUGHT US HERE.',
     description: 'A journey years in the making, now culminating in a moment we can\'t wait to share with you. We hope you can join us in the beautiful city of Kyoto.',
@@ -63,23 +61,27 @@ export const WEDDING_DATA: WeddingData = {
     title: 'Our Love Story',
     quote: '"We loved with a love that was more than love."',
     quoteAuthor: '— Edgar Allan Poe',
-    videoUrl: "https://res.cloudinary.com/dyk3nghtf/video/upload/f_auto,q_auto:best/Engagement_day_ghdwkw.mp4",
-    posterUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop', // Poster story
+    videoUrl: 'https://res.cloudinary.com/dyk3nghtf/video/upload/f_auto,q_auto:best,w_1920/Engagement_day_ghdwkw.mp4',
+    posterUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop',
     estYear: 'Est. 2023',
     stories: [
       {
         title: 'How We Met',
-        content: 'It started with a chance encounter at a local coffee shop in Kyoto. Rain was pouring down, and we both reached for the last umbrella in the rack. That awkward laugh turned into a conversation that lasted for hours.'
+        content: 'It started with a chance encounter at a local coffee shop in Kyoto. Rain was pouring down, and we both reached for the last umbrella in the rack.'
       },
       {
         title: 'The Proposal',
         content: 'Three years later, under the cherry blossoms of Maruyama Park, Leo got down on one knee. It was simple, private, and absolutely perfect.'
+      },
+      {
+        title: 'Building Our Life',
+        content: 'From traveling across continents to finding joy in the small everyday moments, we realized that home is not a place, but a person.'
       }
     ]
-  } as any,
+  },
   gallery: {
     title: 'Captured Moments',
-    images: [
+     images: [
       { src: 'https://picsum.photos/600/900?random=1', spanClass: 'col-span-1 row-span-2 md:col-span-1 md:row-span-2' },
       { src: 'https://picsum.photos/900/600?random=2', spanClass: 'col-span-2 row-span-1 md:col-span-2 md:row-span-1' },
       { src: 'https://picsum.photos/600/900?random=3', spanClass: 'col-span-1 row-span-2 md:col-span-1 md:row-span-2' },
@@ -93,35 +95,26 @@ export const WEDDING_DATA: WeddingData = {
     ]
   },
   gift: {
-    description: 'Your blessing is the greatest gift we could ask for. However, if you wish to honor us with a token of love, we have provided the following options.',
+    description: 'Your presence is the greatest gift. But if you wish to give more, we provide several options below.',
     accounts: [
-      {
-        bankName: 'BCA',
-        logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/1200px-Bank_Central_Asia.svg.png',
-        accountNumber: '123 456 7890',
-        holderName: 'Leo Alexander'
-      },
-      {
-        bankName: 'MANDIRI',
-        logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/1200px-Bank_Mandiri_logo_2016.svg.png',
-        accountNumber: '098 765 4321',
-        holderName: 'Kaia Amara'
-      }
+      { bankName: 'Bank Central Asia', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg', accountNumber: '123 456 7890', holderName: 'Leo Alexander' },
+      { bankName: 'Bank Mandiri', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg', accountNumber: '098 765 4321', holderName: 'Kaia Amara' }
     ],
     address: {
-      street: 'Jalan Bunga Sakura No. 88, Cluster Kyoto',
-      city: 'Jakarta Selatan, DKI Jakarta 12345',
+      street: '123 Sakura Way, Higashiyama-ku',
+      city: 'Kyoto 605-0001, Japan',
       receiver: 'Leo & Kaia'
-    }
+    },
   },
   rsvp: {
-    deadline: 'January 1st, 2026'
+    deadline: 'July 1st, 2026',
+    contactPhone: '+81 123 456 789',
   },
   footer: {
-    hashtags: ['#KaiaLeoBegin', '#KyotoLoveStory'],
+    hashtags: ['#KAIAandLEO', '#KyotoWedding2026'],
     socialLinks: [
-      { platform: 'Instagram', url: 'https://instagram.com' }
+      { platform: 'instagram', url: 'https://instagram.com' }
     ],
-    backgroundImage: 'https://picsum.photos/900/500?random=10'
-  }
+    backgroundImage: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1920&auto=format&fit=crop',
+  },
 };

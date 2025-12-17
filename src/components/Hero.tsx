@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ArrowRight } from "lucide-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { WEDDING_DATA } from "../data";
+import dynamic from "next/dynamic";
 
 interface TimeLeft {
   days: number;
@@ -68,6 +69,7 @@ const Hero: React.FC = () => {
           start: "top top",
           end: "500px top",
           scrub: true,
+          pin: true,
         },
       });
 
@@ -108,10 +110,10 @@ const Hero: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden z-0 bg-black"
+      className="relative h-screen w-full overflow-hidden z-0  "
     >
       {/* BACKGROUND VIDEO & POSTER */}
-      <div className="hero-fixed-bg absolute inset-0 w-full h-full z-[-1] pointer-events-none overflow-hidden scale-110">
+      <div className="hero-fixed-bg absolute inset-0 w-full h-full z-[-1] pointer-events-none overflow-hidden  ">
         <video
           className={`w-full h-full object-cover transition-opacity duration-1000 ${
             videoLoaded ? "opacity-100" : "opacity-0"
@@ -175,7 +177,7 @@ const Hero: React.FC = () => {
         </div>
 
         <div className="hero-bottom-bar w-full max-w-5xl mx-auto">
-          <div className="bg-white/10 border border-white/20 shadow-2xl rounded-3xl p-1 flex flex-row items-center justify-between relative overflow-hidden backdrop-blur-xl ring-1 ring-white/10">
+          <div className="bg-stone-50/5 border border-white/20 shadow-2xl rounded-3xl p-1 flex flex-row items-center justify-between relative overflow-hidden mb-8 md:mb-0   ring-1 ring-white/10">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 animate-pulse"></div>
 
             <div className="flex items-center gap-3 md:gap-6 px-4 md:px-8 py-3 border-r border-white/10 z-10 shrink-0">
@@ -223,4 +225,4 @@ const Hero: React.FC = () => {
   );
 };
 
-export default Hero;
+export default dynamic(() => Promise.resolve(Hero), { ssr: false });
