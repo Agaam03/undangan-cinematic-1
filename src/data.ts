@@ -6,7 +6,7 @@ export const WEDDING_DATA: WeddingData = {
     description: 'We invite you to celebrate our wedding in Kyoto, Japan.',
   },
   hero: {
-    videoUrl: "https://res.cloudinary.com/dyk3nghtf/video/upload/v1765995639/June_and_July_-_The_Pre_Wedding_fiaaix.mp4",
+    videoUrl: "https://res.cloudinary.com/dyk3nghtf/video/upload/q_auto:eco,f_auto:video/v1765995639/June_and_July_-_The_Pre_Wedding_fiaaix.mp4",
     targetDate: '2026-07-14T00:00:00',
     location: 'Kyoto, Japan',
     posterUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop',
@@ -61,7 +61,7 @@ export const WEDDING_DATA: WeddingData = {
     title: 'Our Love Story',
     quote: '"We loved with a love that was more than love."',
     quoteAuthor: '— Edgar Allan Poe',
-    videoUrl: 'https://res.cloudinary.com/dyk3nghtf/video/upload/v1765995639/June_and_July_-_The_Pre_Wedding_fiaaix.mp4',
+    videoUrl: 'https://res.cloudinary.com/dyk3nghtf/video/upload/q_auto:eco,f_auto:video/v1765995639/June_and_July_-_The_Pre_Wedding_fiaaix.mp4',
     posterUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop',
     estYear: 'Est. 2023',
     stories: [
