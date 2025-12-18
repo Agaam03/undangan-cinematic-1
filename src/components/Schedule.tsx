@@ -3,80 +3,90 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useMediaQuery } from "react-responsive";
 import { WEDDING_DATA } from "../data";
 
 const Schedule: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
+      // Entrance animations for rows (safe for mobile)
       const rows = gsap.utils.toArray(".schedule-row");
       rows.forEach((row: any) => {
         gsap.from(row, {
           scrollTrigger: {
             trigger: row,
-            start: "top 80%",
+            start: "top 85%",
           },
-          y: 60,
+          y: 40,
           opacity: 0,
-          duration: 1.2,
+          duration: 1,
           ease: "power3.out",
         });
       });
 
-      // Vertical Title Animation
-      gsap.from(".vertical-title", {
-        scrollTrigger: { trigger: ".vertical-title" },
-        x: -50,
-        opacity: 0,
-        duration: 1.5,
-        ease: "power2.out",
-      });
+      // CONDITIONAL PARALLAX: Only for desktop
+      if (isDesktop) {
+        gsap.utils.toArray(".parallax-wrapper").forEach((wrapper: any) => {
+          const img = wrapper.querySelector("img");
+          if (img) {
+            gsap.fromTo(
+              img,
+              { scale: 1.15, yPercent: -12 },
+              {
+                scale: 1.15,
+                yPercent: 12,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: wrapper,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 1,
+                },
+              }
+            );
+          }
+        });
 
-      // Parallax Effect for Images within .parallax-wrapper
-      gsap.utils.toArray(".parallax-wrapper").forEach((wrapper: any) => {
-        const img = wrapper.querySelector("img");
-        if (img) {
-          gsap.fromTo(
-            img,
-            { scale: 1.15, yPercent: -12 },
-            {
-              scale: 1.15,
-              yPercent: 12,
-              ease: "none",
-              scrollTrigger: {
-                trigger: wrapper,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1, // Slight smoothing
-              },
-            }
-          );
-        }
-      });
+        // Vertical Title Animation (Desktop only)
+        gsap.from(".vertical-title", {
+          scrollTrigger: { trigger: ".vertical-title", start: "top 90%" },
+          x: -30,
+          opacity: 0,
+          duration: 1.2,
+          ease: "power2.out",
+        });
+      } else {
+        // Reset transforms on mobile
+        gsap.set(".parallax-wrapper img", {
+          scale: 1,
+          yPercent: 0,
+        });
+      }
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isDesktop]);
 
   return (
-    // Changed bg-stone-100 to bg-stone-50/80 backdrop-blur-sm
     <section
       ref={containerRef}
       className="relative flex flex-col justify-center items-center py-24 bg-stone-50 overflow-hidden min-h-screen"
       id="roundown-acara"
     >
-      {/* Vertical Title */}
+      {/* Vertical Title - Desktop only */}
       <h1
-        className="vertical-title hidden lg:block absolute left-8 top-32 text-xs font-sans tracking-[0.5em] uppercase text-stone-400 font-bold z-10"
+        className="vertical-title hidden lg:block absolute left-8 top-32 text-[10px] font-sans tracking-[0.5em] uppercase text-stone-400 font-bold z-10"
         style={{
           writingMode: "vertical-rl",
           textOrientation: "mixed",
           transform: "rotate(180deg)",
         }}
       >
-        Schedule
+        Event Schedule
       </h1>
 
       <div className="w-full max-w-[90rem] mx-auto px-6 space-y-24 md:space-y-32">
@@ -95,13 +105,12 @@ const Schedule: React.FC = () => {
                 className={`w-full md:w-1/2 flex flex-row ${
                   isEven
                     ? "items-end justify-center"
-                    : "items-center justify-center pl-0 md:pl-12"
+                    : "items-center justify-center"
                 } gap-4 relative`}
               >
                 {isEven ? (
-                  // Layout A (Like Akad Nikah)
                   <>
-                    <div className="parallax-wrapper w-2/3 aspect-[3/4] overflow-hidden shadow-2xl   relative">
+                    <div className="parallax-wrapper w-2/3 aspect-[3/4] overflow-hidden shadow-2xl relative border border-stone-200">
                       <img
                         src={event.imageMain}
                         alt={event.title.replace("\n", " ")}
@@ -109,7 +118,7 @@ const Schedule: React.FC = () => {
                       />
                     </div>
                     {event.imageDetail && (
-                      <div className="w-1/3 aspect-square overflow-hidden  z-10   shadow-xl">
+                      <div className="w-1/3 aspect-square overflow-hidden z-10 shadow-xl border border-stone-100">
                         <img
                           src={event.imageDetail}
                           alt="Detail"
@@ -119,8 +128,7 @@ const Schedule: React.FC = () => {
                     )}
                   </>
                 ) : (
-                  // Layout B (Like Reception)
-                  <div className="parallax-wrapper w-full md:w-[85%] aspect-[3/4] overflow-hidden relative shadow-2xl">
+                  <div className="parallax-wrapper w-full md:w-[85%] aspect-[3/4] overflow-hidden relative shadow-2xl border border-stone-200">
                     <img
                       src={event.imageMain}
                       alt={event.title.replace("\n", " ")}
@@ -131,42 +139,43 @@ const Schedule: React.FC = () => {
               </div>
 
               {/* Content Side */}
-              <div className="w-full md:w-1/3 mx-auto flex flex-col items-center justify-center text-center space-y-6  ">
-                <p className="text-xl md:text-2xl font-sans tracking-[0.2em] uppercase text-stone-600 font-bold mb-2">
+              <div className="w-full md:w-1/3 mx-auto flex flex-col items-center justify-center text-center space-y-6">
+                <p className="text-sm md:text-base font-sans tracking-[0.3em] uppercase text-stone-500 font-bold">
                   {event.date}
                 </p>
 
-                <h1 className="text-5xl md:text-7xl font-serif text-stone-900 uppercase tracking-widest leading-snug font-bold whitespace-pre-line">
+                <h2 className="text-4xl md:text-6xl font-serif text-stone-900 uppercase tracking-widest leading-tight font-bold whitespace-pre-line">
                   {event.title}
-                </h1>
+                </h2>
 
-                {/* If subEvents exist (e.g. Ceremony & Reception), list them */}
                 {event.subEvents ? (
-                  <div className="space-y-12 w-full max-w-md mx-auto pt-6">
+                  <div className="space-y-10 w-full max-w-md mx-auto pt-4">
                     {event.subEvents.map((sub, idx) => (
-                      <div key={idx} className="flex flex-col items-center">
-                        <span className="font-sans text-lg md:text-xl font-bold text-stone-800 tracking-widest mb-2">
+                      <div
+                        key={idx}
+                        className="flex flex-col items-center group"
+                      >
+                        <span className="font-sans text-xs font-bold text-stone-400 tracking-[0.2em] mb-2 uppercase">
                           {sub.time}
                         </span>
-                        <p className="font-serif text-2xl text-stone-900 font-bold">
+                        <p className="font-serif text-2xl text-stone-800 font-medium mb-1">
                           {sub.title}
                         </p>
-                        <p className="font-serif italic text-stone-800 text-base font-medium border-b border-transparent hover:border-stone-500 transition-colors cursor-pointer">
+                        <p className="font-sans text-[10px] tracking-widest text-stone-500 uppercase border-b border-stone-200 pb-1 group-hover:border-stone-800 transition-colors">
                           {sub.location}
                         </p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  // Simple Single Event Layout
                   <div className="flex flex-col items-center gap-2 pt-4">
                     {event.primaryTime && (
-                      <span className="font-sans text-lg md:text-xl font-bold text-stone-800 tracking-widest mb-1">
+                      <span className="font-sans text-xs font-bold text-stone-400 tracking-[0.2em] mb-1 uppercase">
                         {event.primaryTime}
                       </span>
                     )}
                     {event.primaryLocation && (
-                      <p className="font-serif italic text-stone-800 text-lg border-b border-stone-300 pb-1 font-medium">
+                      <p className="font-serif italic text-stone-800 text-lg border-b border-stone-200 pb-1">
                         {event.primaryLocation}
                       </p>
                     )}
@@ -174,7 +183,7 @@ const Schedule: React.FC = () => {
                 )}
 
                 {event.description && (
-                  <p className="font-sans text-stone-800 max-w-sm pt-4">
+                  <p className="font-sans text-xs text-stone-500 max-w-sm pt-4 leading-relaxed tracking-wide uppercase">
                     {event.description}
                   </p>
                 )}

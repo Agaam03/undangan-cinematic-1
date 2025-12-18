@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Lato } from "next/font/google";
 import { WEDDING_DATA } from "../data";
 import "./globals.css";
+import SmoothScroll from "@/SmoothScroll";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -28,7 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${lato.variable}`}>
       <body>
-        <div id="root">{children}</div>
+        <div id="root">
+          <SmoothScroll />
+          {children}
+        </div>
       </body>
     </html>
   );

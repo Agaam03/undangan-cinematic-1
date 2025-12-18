@@ -6,13 +6,13 @@ export const WEDDING_DATA: WeddingData = {
     description: 'We invite you to celebrate our wedding in Kyoto, Japan.',
   },
   hero: {
-    videoUrl: "https://res.cloudinary.com/dyk3nghtf/video/upload/f_auto,q_auto:best,w_1920/Engagement_day_ghdwkw.mp4",
+    videoUrl: "../June-and-July.mp4",
     targetDate: '2026-07-14T00:00:00',
     location: 'Kyoto, Japan',
     posterUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop',
   },
   intro: {
-    title: 'WE INVITE YOU TO JOIN US AS WE\nEXCHANGE VOWS AND CELEBRATE THE LOVE\nTHAT HAS BROUGHT US HERE.',
+    title: 'WE INVITE YOU TO JOIN US AS WE EXCHANGE VOWS AND CELEBRATE THE LOVE THAT HAS BROUGHT US HERE.',
     description: 'A journey years in the making, now culminating in a moment we can\'t wait to share with you. We hope you can join us in the beautiful city of Kyoto.',
     verseText: '"And of His signs is that He created for you from yourselves mates that you may find tranquillity in them; and He placed between you affection and mercy."',
     verseReference: 'Ar-Rum 30:21',
@@ -61,7 +61,7 @@ export const WEDDING_DATA: WeddingData = {
     title: 'Our Love Story',
     quote: '"We loved with a love that was more than love."',
     quoteAuthor: '— Edgar Allan Poe',
-    videoUrl: 'https://res.cloudinary.com/dyk3nghtf/video/upload/f_auto,q_auto:best,w_1920/Engagement_day_ghdwkw.mp4',
+    videoUrl: '../June-and-July.mp4',
     posterUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop',
     estYear: 'Est. 2023',
     stories: [

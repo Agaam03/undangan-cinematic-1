@@ -3,56 +3,57 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useMediaQuery } from "react-responsive";
 import { WEDDING_DATA } from "../data";
 
 const Intro: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      // Animate Main Title
+      // Entrance animations for text - keep simple for mobile, more dynamic for desktop
       gsap.from(".intro-text", {
         scrollTrigger: {
-          trigger: ".intro-text",
-          start: "top 80%",
+          trigger: ".intro-text-container",
+          start: "top 85%",
         },
-        y: 50,
+        y: isDesktop ? 40 : 20,
         opacity: 0,
-        duration: 1.5,
+        duration: 1.2,
         ease: "power3.out",
-        stagger: 0.2,
+        stagger: isDesktop ? 0.2 : 0, // No stagger on mobile for weight
       });
 
-      // Animate Verse
+      // Animate Verse container
       gsap.from(".verse-container", {
         scrollTrigger: {
           trigger: ".verse-container",
-          start: "top 85%",
+          start: "top 90%",
         },
-        scale: 0.95,
+        scale: isDesktop ? 0.98 : 1, // Minimize transformations on mobile
+        y: 20,
         opacity: 0,
-        duration: 1.5,
+        duration: 1.2,
         ease: "power2.out",
       });
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isDesktop]);
 
   return (
-    // Changed bg-stone-100 to bg-stone-50/80 with backdrop blur (Glass effect)
     <section
       ref={containerRef}
-      className="relative z-10 py-24 px-6 md:px-12   text-center bg-stone-50"
+      className="relative z-10 py-24 px-6 md:px-12 text-center bg-stone-50"
     >
       <div className="max-w-6xl mx-auto">
         {/* Introduction */}
-        <div className="relative mb-16 text-center  intro-text-container">
-          {/* Card */}
-          <div className="relative mx-auto px-8 py-10 ">
+        <div className="relative mb-16 text-center intro-text-container">
+          <div className="relative mx-auto px-8 py-10">
             {/* Title */}
-            <h2 className="intro-text font-serif text-3xl md:text-5xl italic capitalize  text-stone-900">
+            <h2 className="intro-text font-serif text-3xl md:text-5xl italic capitalize text-stone-900">
               {WEDDING_DATA.intro.title}
             </h2>
 
@@ -73,12 +74,12 @@ const Intro: React.FC = () => {
         {/* Ayat Suci / Holy Verse */}
         <div
           id="ayat-suci"
-          className="verse-container p-4 md:p-10 border border-stone-200 rounded-lg bg-white/70 shadow-sm"
+          className="verse-container p-4 md:p-10 border border-stone-200 rounded-lg bg-white/70 shadow-sm backdrop-blur-sm"
         >
-          <p className="font-serif italic text-2xl md:text-3xl text-stone-900 mb-6 font-medium ">
-            {WEDDING_DATA.intro.verseText}
+          <p className="font-serif italic text-2xl md:text-3xl text-stone-900 mb-6 font-medium">
+            "{WEDDING_DATA.intro.verseText}"
           </p>
-          <p className="text-sm font-sans tracking-widest uppercase text-stone-800 font-bold">
+          <p className="text-[10px] md:text-xs font-sans tracking-[0.4em] uppercase text-stone-500 font-bold">
             {WEDDING_DATA.intro.verseReference}
           </p>
         </div>

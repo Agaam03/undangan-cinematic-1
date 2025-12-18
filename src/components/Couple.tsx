@@ -4,22 +4,28 @@ import React, { useEffect, useRef } from "react";
 import { Instagram } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useMediaQuery } from "react-responsive";
 import { WEDDING_DATA } from "../data";
 
 const Couple: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { groom, bride } = WEDDING_DATA.couple;
 
+  // Detect desktop view (min-width: 768px)
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+
     const ctx = gsap.context(() => {
-      // Entrance Animations
+      // Entrance Animations - Always keep these for better entry feel
+      // but only trigger if visible.
       gsap.from(".groom-card", {
         scrollTrigger: {
           trigger: ".groom-card",
           start: "top 80%",
         },
-        y: 100,
+        y: 60,
         opacity: 0,
         duration: 1.2,
         ease: "power3.out",
@@ -30,48 +36,53 @@ const Couple: React.FC = () => {
           trigger: ".bride-card",
           start: "top 80%",
         },
-        y: 100,
+        y: 60,
         opacity: 0,
         duration: 1.2,
         delay: 0.2,
         ease: "power3.out",
       });
 
-      // Parallax Effect for Images
-      // Find all elements with class .parallax-img-wrapper and animate the img inside them
-      gsap.utils.toArray(".parallax-img-wrapper").forEach((wrapper: any) => {
-        const img = wrapper.querySelector("img");
-        if (img) {
-          gsap.fromTo(
-            img,
-            { scale: 1.2, yPercent: -10 },
-            {
-              scale: 1.2,
-              yPercent: 10,
-              ease: "none",
-              scrollTrigger: {
-                trigger: wrapper,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true,
-              },
-            }
-          );
-        }
-      });
+      // CONDITIONAL PARALLAX: Only run if isDesktop is true
+      if (isDesktop) {
+        gsap.utils.toArray(".parallax-img-wrapper").forEach((wrapper: any) => {
+          const img = wrapper.querySelector("img");
+          if (img) {
+            gsap.fromTo(
+              img,
+              { scale: 1.15, yPercent: -10 },
+              {
+                scale: 1.15,
+                yPercent: 10,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: wrapper,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: true,
+                },
+              }
+            );
+          }
+        });
+      } else {
+        // If mobile, ensure images are properly scaled and centered without movement
+        gsap.set(".parallax-img-wrapper img", {
+          scale: 1,
+          yPercent: 0,
+        });
+      }
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isDesktop]); // Re-run effect when screen size switches between mobile and desktop
 
   return (
-    // Changed bg-stone-50 to bg-stone-50/70 backdrop-blur-sm
     <section
       ref={containerRef}
       id="couple"
-      className="relative py-24 px-6 md:px-12 bg-stone-100 backdrop-blur-sm   overflow-hidden"
+      className="relative py-24 px-6 md:px-12 bg-stone-100 backdrop-blur-sm overflow-hidden"
     >
-      {/* Used max-w-7xl for a very wide layout */}
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 md:gap-24 justify-center items-center md:items-start">
         {/* The Groom */}
         <div className="groom-card flex-1 max-w-md w-full group">

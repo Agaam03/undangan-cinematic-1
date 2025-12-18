@@ -124,6 +124,7 @@ const LoveStory: React.FC<LoveStoryProps> = ({
               playsInline
               loop
               autoPlay
+              preload="auto"
               muted={isMuted} // Menggunakan prop isMuted
               onCanPlayThrough={() => setIsVideoReady(true)}
             />

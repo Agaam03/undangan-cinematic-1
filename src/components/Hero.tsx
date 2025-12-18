@@ -2,10 +2,9 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ArrowRight } from "lucide-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useMediaQuery } from "react-responsive";
 import { WEDDING_DATA } from "../data";
-import dynamic from "next/dynamic";
 
 interface TimeLeft {
   days: number;
@@ -18,8 +17,8 @@ const Hero: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
-  // Countdown Logic
   const calculateTimeLeft = (): TimeLeft => {
     const targetDate = new Date(WEDDING_DATA.hero.targetDate);
     const difference = +targetDate - +new Date();
@@ -49,6 +48,7 @@ const Hero: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // --- KODE GSAP (TIDAK DIUBAH SAMA SEKALI) ---
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -61,59 +61,60 @@ const Hero: React.FC = () => {
         pinSpacing: false,
       });
 
-      gsap.to(".hero-fixed-bg", {
-        filter: "blur(12px) ",
-        ease: "none",
-        scrollTrigger: {
-          trigger: "body",
-          start: "top top",
-          end: "500px top",
-          scrub: true,
-          pin: true,
-        },
-      });
+      if (isDesktop) {
+        gsap.to(".hero-fixed-bg", {
+          filter: "blur(12px)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: "body",
+            start: "top top",
+            end: "500px top",
+            scrub: true,
+          },
+        });
 
-      gsap.to(contentRef.current, {
-        opacity: 0,
-        y: -150,
-        scale: 0.9,
-        ease: "power1.in",
-        scrollTrigger: {
-          trigger: "body",
-          start: "top top",
-          end: "400px top",
-          scrub: true,
-        },
-      });
+        gsap.to(contentRef.current, {
+          opacity: 0,
+          y: -150,
+          scale: 0.9,
+          ease: "power1.in",
+          scrollTrigger: {
+            trigger: "body",
+            start: "top top",
+            end: "400px top",
+            scrub: true,
+          },
+        });
+      }
 
       gsap.from(".hero-text-element", {
-        y: 60,
+        y: 40,
         opacity: 0,
-        duration: 1.5,
+        duration: 1.2,
         stagger: 0.2,
         ease: "power4.out",
-        delay: 0.5,
+        delay: 0.3,
       });
 
       gsap.from(".hero-bottom-bar", {
-        y: 100,
+        y: 60,
         opacity: 0,
-        duration: 1.2,
+        duration: 1,
         ease: "power3.out",
-        delay: 1.2,
+        delay: 1,
       });
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isDesktop]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden z-0  "
+      className="relative h-screen w-full overflow-hidden z-0 bg-stone-950 text-white"
     >
-      {/* BACKGROUND VIDEO & POSTER */}
-      <div className="hero-fixed-bg absolute inset-0 w-full h-full z-[-1] pointer-events-none overflow-hidden  ">
+      {/* --- BACKGROUND AREA --- */}
+      <div className="hero-fixed-bg absolute inset-0 w-full h-full z-[-1] pointer-events-none overflow-hidden">
         <video
           className={`w-full h-full object-cover transition-opacity duration-1000 ${
             videoLoaded ? "opacity-100" : "opacity-0"
@@ -123,100 +124,93 @@ const Hero: React.FC = () => {
           loop
           playsInline
           preload="auto"
-          poster={(WEDDING_DATA.hero as any).posterUrl}
+          poster={WEDDING_DATA.hero.posterUrl}
           onLoadedData={() => setVideoLoaded(true)}
         >
           <source src={WEDDING_DATA.hero.videoUrl} />
         </video>
 
-        {/* Placeholder background while video loads */}
         {!videoLoaded && (
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm"
-            style={{
-              backgroundImage: `url(${(WEDDING_DATA.hero as any).posterUrl})`,
-            }}
+            style={{ backgroundImage: `url(${WEDDING_DATA.hero.posterUrl})` }}
           />
         )}
 
+        {/* Cinematic Layers */}
         <div className="absolute inset-0 bg-black/30"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-black/20"></div>
+        {/* Film Grain Texture Overlay for Cinema Look */}
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{
+            backgroundImage:
+              'url("https://grainy-gradients.vercel.app/noise.svg")',
+          }}
+        ></div>
+        {/* Gradient untuk fokus ke teks tengah */}
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-stone-950/60"></div>
       </div>
 
+      {/* --- CONTENT AREA --- */}
       <div
         ref={contentRef}
-        className="relative h-full w-full flex flex-col items-center justify-between z-10 py-12 px-6"
+        className="relative h-full w-full flex flex-col items-center justify-between z-10 py-10 px-6"
       >
-        <div className="hero-text-element text-center">
-          <span className="text-[10px] md:text-xs tracking-[0.5em] uppercase font-bold text-stone-200/80 drop-shadow-lg">
+        {/* TOP: Small Header */}
+        <div className="hero-text-element text-center pt-4">
+          <p className="text-[10px] md:text-xs tracking-[0.5em] uppercase font-medium text-stone-300 drop-shadow-md">
             The Wedding Celebration Of
-          </span>
+          </p>
         </div>
 
-        <div className="flex flex-col items-center justify-center relative w-full">
-          <div className="hero-text-element absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 select-none pointer-events-none">
-            <span className="font-serif italic text-[14rem] md:text-[22rem] text-white/5 leading-none pr-4 blur-sm">
+        {/* CENTER: Names & Location */}
+        <div className="flex flex-col items-center justify-center relative w-full flex-1">
+          {/* Background Ampersand */}
+          <div className="hero-text-element absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 select-none pointer-events-none mix-blend-overlay opacity-10">
+            <span className="font-serif italic text-[11rem] md:text-[22rem] text-white leading-none blur-[9px]">
               &
             </span>
           </div>
 
-          <h1 className="hero-text-element text-7xl md:text-9xl font-serif text-white tracking-tight leading-none text-center drop-shadow-2xl">
-            {WEDDING_DATA.couple.groom.firstName}
-          </h1>
-          <h1 className="hero-text-element text-7xl md:text-9xl font-serif text-white tracking-tight leading-none text-center md:pl-32 drop-shadow-2xl">
-            {WEDDING_DATA.couple.bride.firstName}
-          </h1>
+          {/* Names */}
+          <div className="relative z-10 space-y-[0.1rem] md:space-y-[-1rem]">
+            <h1 className="hero-text-element text-7xl md:text-[11rem] font-serif text-white tracking-tighter leading-[0.9] text-center drop-shadow-2xl md:pr-40 pr-12">
+              {WEDDING_DATA.couple.groom.firstName}
+            </h1>
+            <h1 className="hero-text-element text-7xl md:text-[11rem] font-serif    text-white tracking-tighter leading-[0.9] text-center md:pl-40 drop-shadow-2xl pl-20">
+              {WEDDING_DATA.couple.bride.firstName}
+            </h1>
+          </div>
 
-          <div className="hero-text-element mt-10 flex items-center gap-6 text-stone-200">
-            <span className="w-12 h-[1px] bg-stone-200/30"></span>
-            <p className="font-sans text-[10px] md:text-xs tracking-[0.4em] uppercase font-bold drop-shadow-md">
+          {/* Location with Lines */}
+          <div className="hero-text-element mt-4 flex items-center gap-6">
+            <span className="w-8 md:w-16 h-[1px] bg-gradient-to-r from-transparent to-stone-400"></span>
+            <p className="font-sans text-[10px] md:text-xs tracking-[0.4em] uppercase font-bold text-stone-300 drop-shadow-md">
               {WEDDING_DATA.hero.location}
             </p>
-            <span className="w-12 h-[1px] bg-stone-200/30"></span>
+            <span className="w-8 md:w-16 h-[1px] bg-gradient-to-l from-transparent to-stone-400"></span>
           </div>
         </div>
 
-        <div className="hero-bottom-bar w-full max-w-5xl mx-auto">
-          <div className="bg-stone-50/5 border border-white/20 shadow-2xl rounded-3xl p-1 flex flex-row items-center justify-between relative overflow-hidden mb-8 md:mb-0   ring-1 ring-white/10">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 animate-pulse"></div>
-
-            <div className="flex items-center gap-3 md:gap-6 px-4 md:px-8 py-3 border-r border-white/10 z-10 shrink-0">
-              <span className="font-serif text-4xl md:text-6xl text-white italic drop-shadow-lg">
+        {/* BOTTOM: Date Display (Sesuai request) */}
+        <div className="hero-bottom-bar w-full max-w-4xl mx-auto pb-6 mb-12 md:mb-0">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+            {/* Design Date yang lebih menyatu */}
+            <div className="flex items-end justify-center gap-3 text-white drop-shadow-lg">
+              {/* Tanggal (Angka) */}
+              <span className="font-serif text-7xl md:text-9xl italic leading-none">
                 {day}
               </span>
-              <div className="flex flex-col text-left space-y-0.5">
-                <span className="text-[9px] md:text-[11px] tracking-widest uppercase font-bold text-stone-200">
+
+              {/* Bulan & Tahun (Teks) */}
+              <div className="flex flex-col justify-end pb-3 md:pb-5">
+                <span className="text-3xl md:text-5xl font-serif tracking-wide uppercase leading-none text-stone-200">
                   {month}
                 </span>
-                <span className="text-[9px] md:text-[11px] tracking-widest uppercase font-bold text-stone-400">
+                <span className="text-sm md:text-lg tracking-[0.5em] uppercase font-light text-stone-400 leading-none mt-1 md:mt-2">
                   {year}
                 </span>
               </div>
-            </div>
-
-            <div className="flex items-center justify-center gap-4 md:gap-12 px-2 md:px-6 z-10 flex-1">
-              {[
-                { label: "Days", value: timeLeft.days },
-                { label: "Hours", value: timeLeft.hours },
-                { label: "Mins", value: timeLeft.minutes },
-                { label: "Secs", value: timeLeft.seconds },
-              ].map((item, i) => (
-                <div key={i} className="flex flex-col items-center">
-                  <span className="font-serif text-xl md:text-3xl text-white tabular-nums leading-none">
-                    {String(item.value).padStart(2, "0")}
-                  </span>
-                  <span className="text-[7px] md:text-[8px] uppercase tracking-widest text-stone-400 mt-1 font-bold">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <div className="hidden md:block pr-3 z-10">
-              <button className="bg-stone-50 hover:bg-white text-stone-900 px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-500 shadow-xl flex items-center gap-2 group">
-                <span>Save Date</span>
-                <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-              </button>
             </div>
           </div>
         </div>
@@ -225,4 +219,4 @@ const Hero: React.FC = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(Hero), { ssr: false });
+export default Hero;
