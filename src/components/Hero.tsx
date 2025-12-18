@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMediaQuery } from "react-responsive";
 import { WEDDING_DATA } from "../data";
+import dynamic from "next/dynamic";
 
 interface TimeLeft {
   days: number;
@@ -219,4 +220,4 @@ const Hero: React.FC = () => {
   );
 };
 
-export default Hero;
+export default dynamic(() => Promise.resolve(Hero), { ssr: false });
