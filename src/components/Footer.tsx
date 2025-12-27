@@ -159,11 +159,9 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-12 gap-y-10 gap-x-4 md:gap-8 items-start mb-16 md:mb-20">
           {/* 1. Brand/Names (Full Width on Mobile, Centered) */}
           <div className="col-span-2 md:col-span-4 flex flex-col space-y-6 text-center md:text-left items-center md:items-start">
-            <h3 className="footer-reveal font-serif text-3xl md:text-5xl text-white invisible leading-none">
-              {WEDDING_DATA.couple.groom.firstName}{" "}
-              <br className="hidden md:block" />
-              <span className="italic text-stone-500 mx-2 md:mx-0">&</span>
-              <br className="hidden md:block" />
+            <h3 className="footer-reveal font-serif text-3xl md:text-5xl text-white invisible leading-none flex flex-row items-center justify-center gap-2">
+              {WEDDING_DATA.couple.groom.firstName}
+              <span className=" text-stone-500 md:mx-0">&</span>
               {WEDDING_DATA.couple.bride.firstName}
             </h3>
 
@@ -232,7 +230,7 @@ const Footer: React.FC = () => {
               <span className="text-[9px] uppercase tracking-[0.3em] text-stone-400 group-hover:text-white transition-colors font-bold order-2 md:order-1">
                 Back to Top
               </span>
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-stone-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:scale-110 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] order-1 md:order-2">
+              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-stone-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:scale-110 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] order-1 md:order-2">
                 <ArrowUp className="w-4 h-4 md:w-5 md:h-5 text-white group-hover:text-stone-950 transition-colors duration-500" />
               </div>
             </button>

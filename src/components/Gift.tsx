@@ -37,16 +37,16 @@ const GiftSection: React.FC = () => {
 
   return (
     // Changed bg-stone-50 to bg-stone-50/70 backdrop-blur-sm
-    <section ref={containerRef} className="py-24 px-4 bg-stone-100 relative">
+    <section ref={containerRef} className="py-4 px-4 bg-white relative">
       <div className="max-w-4xl mx-auto">
         {/* Main Card Container */}
-        <div className="gift-card bg-white/90 backdrop-blur-md border border-stone-200 shadow-2xl p-8 md:p-16 relative text-center">
+        <div className="gift-card bg-white/90 backdrop-blur-md border border-stone-200 p-8 md:p-16 relative text-center">
           {/* Floating Icon */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg border border-stone-200">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-full border border-stone-200">
             <Gift className="w-6 h-6 text-stone-900" />
           </div>
 
-          <h2 className="font-serif text-4xl md:text-5xl mb-6 text-stone-900 font-medium mt-6">
+          <h2 className="font-script text-5xl md:text-6xl mb-6 text-stone-900 mt-6">
             Wedding Gift
           </h2>
           <p className="font-sans text-stone-800 text-sm md:text-base leading-relaxed max-w-xl mx-auto mb-10">
@@ -57,11 +57,10 @@ const GiftSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-10">
             <button
               onClick={() => setActiveTab(activeTab === "bank" ? null : "bank")}
-              className={`px-8 py-3 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest border transition-all duration-300 ${
-                activeTab === "bank"
-                  ? "bg-stone-900 text-stone-50 border-stone-900"
-                  : "bg-transparent text-stone-600 border-stone-300 hover:border-stone-900 hover:text-stone-900"
-              }`}
+              className={`px-8 py-3 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest border transition-all duration-300 ${activeTab === "bank"
+                ? "bg-stone-900 text-stone-50 border-stone-900"
+                : "bg-transparent text-stone-600 border-stone-300 hover:border-stone-900 hover:text-stone-900"
+                }`}
             >
               <CreditCard className="w-4 h-4" />
               Digital Transfer
@@ -70,11 +69,10 @@ const GiftSection: React.FC = () => {
               onClick={() =>
                 setActiveTab(activeTab === "address" ? null : "address")
               }
-              className={`px-8 py-3 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest border transition-all duration-300 ${
-                activeTab === "address"
-                  ? "bg-stone-900 text-stone-50 border-stone-900"
-                  : "bg-transparent text-stone-600 border-stone-300 hover:border-stone-900 hover:text-stone-900"
-              }`}
+              className={`px-8 py-3 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest border transition-all duration-300 ${activeTab === "address"
+                ? "bg-stone-900 text-stone-50 border-stone-900"
+                : "bg-transparent text-stone-600 border-stone-300 hover:border-stone-900 hover:text-stone-900"
+                }`}
             >
               <MapPin className="w-4 h-4" />
               Send Gift
@@ -87,7 +85,7 @@ const GiftSection: React.FC = () => {
               {gift.accounts.map((account, index) => (
                 <div
                   key={index}
-                  className="bg-stone-50 p-6 border border-stone-200 shadow-sm text-left group hover:border-stone-400 transition-colors"
+                  className="bg-stone-50 p-6 border border-stone-200 text-left group hover:border-stone-400 transition-colors"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <span className="text-xs font-bold uppercase tracking-widest text-stone-800">
@@ -129,13 +127,13 @@ const GiftSection: React.FC = () => {
 
           {/* Content Area - Address */}
           {activeTab === "address" && (
-            <div className="bg-stone-50 p-8 border border-stone-200 shadow-sm text-left animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="bg-stone-50 p-8 border border-stone-200 text-left animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                   <span className="text-xs font-bold uppercase tracking-widest text-stone-800 block mb-2">
                     Delivery Address
                   </span>
-                  <p className="font-serif text-lg text-stone-900 leading-snug">
+                  <p className="font-display text-lg text-stone-900 leading-snug">
                     {gift.address.street},<br />
                     {gift.address.city}
                   </p>

@@ -11,12 +11,12 @@ import RSVP from "../components/RSVP";
 import Footer from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import SplashScreen from "@/components/SplashScreen";
-import { Volume2, VolumeX } from "lucide-react";
+import MusicPlayer from "@/components/MusicPlayer";
 
 const Page: React.FC = () => {
   const [isOpened, setIsOpened] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  // Mencegah scroll saat SplashScreen aktif
+
+  // Prevent scroll when SplashScreen is active
   useEffect(() => {
     if (!isOpened) {
       document.body.style.overflow = "hidden";
@@ -26,35 +26,17 @@ const Page: React.FC = () => {
   }, [isOpened]);
 
   return (
-    <div className="min-h-screen text-stone-900 selection:bg-stone-400 selection:text-white overflow-hidden">
+    <div className="min-h-screen text-stone-900 overflow-hidden bg-ornament">
       {!isOpened && <SplashScreen onOpen={() => setIsOpened(true)} />}
 
       <Navbar />
-      {/* Floating Audio Control Button */}
-      {isOpened && (
-        <button
-          onClick={() => setIsMuted(!isMuted)}
-          className="fixed bottom-6 right-6 z-[60] w-12 h-12 bg-white/80 backdrop-blur-md border border-stone-200 rounded-full flex items-center justify-center text-stone-900 shadow-xl transition-all hover:scale-110 active:scale-90 group"
-          aria-label={isMuted ? "Unmute Audio" : "Mute Audio"}
-        >
-          {isMuted ? (
-            <VolumeX
-              size={20}
-              className="text-stone-400 group-hover:text-stone-900"
-            />
-          ) : (
-            <Volume2 size={20} className="text-stone-900 animate-pulse" />
-          )}
-          {/* Subtle Ring animation for unmuted state */}
-          {!isMuted && (
-            <span className="absolute inset-0 rounded-full border border-stone-900 animate-ping opacity-20"></span>
-          )}
-        </button>
-      )}
+
+      {/* Background Music Player */}
+      <MusicPlayer isOpened={isOpened} />
+
       <main
-        className={`relative transition-opacity duration-1000 ${
-          isOpened ? "opacity-100" : "opacity-0"
-        }`}
+        className={`relative transition-opacity duration-1000 ${isOpened ? "opacity-100" : "opacity-0"
+          }`}
       >
         {/* Fixed Background Video Layer (Rendered inside Hero) */}
         <Hero />
@@ -63,8 +45,7 @@ const Page: React.FC = () => {
           <Intro />
           <Couple />
           <Schedule />
-          {/* Mengirimkan state isOpened ke LoveStory */}
-          <LoveStory isOpened={isOpened} isMuted={isMuted} />
+          <LoveStory />
           <Gallery />
           <GiftSection />
           <RSVP />

@@ -2,8 +2,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { MailOpen } from "lucide-react";
+import { MailOpen, Loader2 } from "lucide-react";
 import { WEDDING_DATA } from "../data";
+import { getAllAssetUrls, isAssetsCached, preloadAllAssets } from "../utils/assetCache";
 
 interface SplashScreenProps {
   onOpen: () => void;
@@ -13,15 +14,37 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onOpen }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [guestName, setGuestName] = useState<string>("Our Dear Guest");
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);
+  const [assetsReady, setAssetsReady] = useState(false);
 
   useEffect(() => {
-    // Ambil nama tamu dari URL parameter '?to='
+    // Get guest name from URL parameter '?to='
     const params = new URLSearchParams(window.location.search);
     const to = params.get("to");
     if (to) {
       setGuestName(decodeURIComponent(to).replace(/\+/g, " "));
     }
 
+    // Check if assets are already cached
+    if (isAssetsCached()) {
+      setIsLoading(false);
+      setAssetsReady(true);
+      startEntranceAnimation();
+    } else {
+      // Preload all assets
+      const assetUrls = getAllAssetUrls(WEDDING_DATA);
+      preloadAllAssets(assetUrls, (loaded, total) => {
+        setLoadProgress(Math.round((loaded / total) * 100));
+      }).then(() => {
+        setIsLoading(false);
+        setAssetsReady(true);
+        startEntranceAnimation();
+      });
+    }
+  }, []);
+
+  const startEntranceAnimation = () => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
@@ -53,7 +76,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onOpen }) => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  };
 
   const handleOpen = () => {
     const tl = gsap.timeline({
@@ -75,7 +98,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onOpen }) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-stone-50 overflow-hidden"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white overflow-hidden"
     >
       {/* Background Texture */}
       <div className="absolute inset-0 opacity-40 bg-paper-texture pointer-events-none"></div>
@@ -84,9 +107,27 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onOpen }) => {
       <div className="absolute top-12 left-12 w-24 h-24 border-l border-t border-stone-200 pointer-events-none"></div>
       <div className="absolute bottom-12 right-12 w-24 h-24 border-r border-b border-stone-200 pointer-events-none"></div>
 
+      {/* Loading State */}
+      {isLoading && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-50 bg-white">
+          <Loader2 className="w-8 h-8 text-stone-400 animate-spin mb-4" />
+          <p className="text-xs uppercase tracking-[0.3em] text-stone-500 font-bold mb-2">
+            Loading Assets
+          </p>
+          <div className="w-48 h-1 bg-stone-200 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-stone-900 transition-all duration-300 ease-out"
+              style={{ width: `${loadProgress}%` }}
+            />
+          </div>
+          <p className="text-[10px] text-stone-400 mt-2">{loadProgress}%</p>
+        </div>
+      )}
+
       <div
         ref={contentRef}
-        className="relative z-10 flex flex-col items-center text-center px-8 w-full max-w-2xl"
+        className={`relative z-10 flex flex-col items-center text-center px-8 w-full max-w-2xl transition-opacity duration-500 ${assetsReady ? "opacity-100" : "opacity-0"
+          }`}
       >
         {/* Wedding Header */}
         <div className="splash-fade-in mb-8">
@@ -138,7 +179,8 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onOpen }) => {
         <div className="splash-fade-in">
           <button
             onClick={handleOpen}
-            className="group relative flex items-center gap-4 bg-stone-900 text-stone-50 md:px-12 md:py-5 py-3 px-12 mb-12 rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-xl"
+            disabled={!assetsReady}
+            className="group relative flex items-center gap-4 bg-stone-900 text-stone-50 md:px-12 md:py-5 py-3 px-12 mb-12 rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span className="relative z-10 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em]">
               Buka Undangan

@@ -3,194 +3,190 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useMediaQuery } from "react-responsive";
+import { MapPin, Clock, Calendar } from "lucide-react";
 import { WEDDING_DATA } from "../data";
 
 const Schedule: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      // Entrance animations for rows (safe for mobile)
-      const rows = gsap.utils.toArray(".schedule-row");
-      rows.forEach((row: any) => {
-        gsap.from(row, {
-          scrollTrigger: {
-            trigger: row,
-            start: "top 85%",
-          },
-          y: 40,
+      // Header animation
+      gsap.from(".schedule-header", {
+        scrollTrigger: { trigger: ".schedule-header", start: "top 85%" },
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      // Card animations
+      gsap.utils.toArray(".event-card").forEach((card: any, index) => {
+        gsap.from(card, {
+          scrollTrigger: { trigger: card, start: "top 85%" },
+          y: 50,
           opacity: 0,
           duration: 1,
+          delay: index * 0.2,
           ease: "power3.out",
         });
       });
-
-      // CONDITIONAL PARALLAX: Only for desktop
-      if (isDesktop) {
-        gsap.utils.toArray(".parallax-wrapper").forEach((wrapper: any) => {
-          const img = wrapper.querySelector("img");
-          if (img) {
-            gsap.fromTo(
-              img,
-              { scale: 1.15, yPercent: -12 },
-              {
-                scale: 1.15,
-                yPercent: 12,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: wrapper,
-                  start: "top bottom",
-                  end: "bottom top",
-                  scrub: 1,
-                },
-              }
-            );
-          }
-        });
-
-        // Vertical Title Animation (Desktop only)
-        gsap.from(".vertical-title", {
-          scrollTrigger: { trigger: ".vertical-title", start: "top 90%" },
-          x: -30,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power2.out",
-        });
-      } else {
-        // Reset transforms on mobile
-        gsap.set(".parallax-wrapper img", {
-          scale: 1,
-          yPercent: 0,
-        });
-      }
     }, containerRef);
 
     return () => ctx.revert();
-  }, [isDesktop]);
+  }, []);
+
+  // Parse date string to get day, month, year
+  const parseDate = (dateStr: string) => {
+    // Expected format: "14th July 2026"
+    const parts = dateStr.match(/(\d+)\w*\s+(\w+)\s+(\d+)/);
+    if (parts) {
+      return {
+        day: parts[1],
+        month: parts[2],
+        year: parts[3],
+      };
+    }
+    return { day: "", month: "", year: "" };
+  };
 
   return (
     <section
       ref={containerRef}
-      className="relative flex flex-col justify-center items-center py-24 bg-stone-50 overflow-hidden min-h-screen"
+      className="py-2 px-6 md:px-12 bg-white relative"
       id="roundown-acara"
     >
-      {/* Vertical Title - Desktop only */}
-      <h1
-        className="vertical-title hidden lg:block absolute left-8 top-32 text-[10px] font-sans tracking-[0.5em] uppercase text-stone-400 font-bold z-10"
-        style={{
-          writingMode: "vertical-rl",
-          textOrientation: "mixed",
-          transform: "rotate(180deg)",
-        }}
-      >
-        Event Schedule
-      </h1>
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="schedule-header text-center mb-20">
+          <span className="text-[10px] md:text-xs tracking-[0.5em] uppercase font-bold text-stone-400 mb-4 block">
+            Save The Date
+          </span>
+          <h2 className="font-script text-5xl md:text-7xl text-stone-900 mb-4">
+            Wedding Schedule
+          </h2>
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-16 bg-stone-300" />
+            <Calendar className="w-4 h-4 text-stone-400" />
+            <span className="h-px w-16 bg-stone-300" />
+          </div>
+        </div>
 
-      <div className="w-full max-w-[90rem] mx-auto px-6 space-y-24 md:space-y-32">
-        {WEDDING_DATA.schedule.map((event, index) => {
-          const isEven = index % 2 === 0;
+        {/* Events Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+          {WEDDING_DATA.schedule.map((event) => {
+            const { day, month, year } = parseDate(event.date);
 
-          return (
-            <div
-              key={event.id}
-              className={`schedule-row flex flex-col ${
-                isEven ? "md:flex-row" : "md:flex-row-reverse"
-              } items-center gap-12 md:gap-0`}
-            >
-              {/* Image Side */}
+            return (
               <div
-                className={`w-full md:w-1/2 flex flex-row ${
-                  isEven
-                    ? "items-end justify-center"
-                    : "items-center justify-center"
-                } gap-4 relative`}
+                key={event.id}
+                className="event-card group bg-white border border-stone-200 overflow-hidden hover:border-stone-400 transition-all duration-500"
               >
-                {isEven ? (
-                  <>
-                    <div className="parallax-wrapper w-2/3 aspect-[3/4] overflow-hidden shadow-2xl relative border border-stone-200">
-                      <img
-                        src={event.imageMain}
-                        alt={event.title.replace("\n", " ")}
-                        className="w-full h-full object-cover will-change-transform opacity-95"
-                      />
+                {/* Image Section */}
+                <div className="relative h-72 md:h-80 overflow-hidden">
+                  <img
+                    src={event.imageMain}
+                    alt={event.title.replace("\n", " ")}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Date Badge */}
+                  <div className="absolute top-6 left-6 bg-white/95 backdrop-blur-sm px-5 py-4 text-center border border-stone-100">
+                    <span className="block font-script text-4xl text-stone-900 leading-none">
+                      {day}
+                    </span>
+                    <span className="block text-[10px] tracking-[0.2em] uppercase font-bold text-stone-500 mt-1">
+                      {month}
+                    </span>
+                    <span className="block text-[10px] tracking-widest text-stone-400 mt-0.5">
+                      {year}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="p-8 md:p-10">
+                  {/* Title */}
+                  <h3 className="font-script text-4xl md:text-5xl text-stone-900 mb-6 leading-tight">
+                    {event.title.replace("\n", " ")}
+                  </h3>
+
+                  {/* Sub Events or Primary Info */}
+                  {event.subEvents ? (
+                    <div className="space-y-5">
+                      {event.subEvents.map((sub, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-start gap-4 group/item"
+                        >
+                          {/* Time Icon */}
+                          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center group-hover/item:bg-stone-200 transition-colors">
+                            <Clock className="w-4 h-4 text-stone-600" />
+                          </div>
+                          {/* Event Info */}
+                          <div className="flex-1 border-b border-stone-100 pb-4">
+                            <div className="flex items-center gap-3 mb-1">
+                              <span className="text-xs font-bold text-stone-900 tracking-wide">
+                                {sub.time}
+                              </span>
+                              <span className="text-stone-300">—</span>
+                              <span className="font-script text-2xl text-stone-800">
+                                {sub.title}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1 text-stone-500">
+                              <MapPin className="w-3 h-3" />
+                              <span className="text-xs tracking-wide">
+                                {sub.location}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    {event.imageDetail && (
-                      <div className="w-1/3 aspect-square overflow-hidden z-10 shadow-xl border border-stone-100">
-                        <img
-                          src={event.imageDetail}
-                          alt="Detail"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div className="parallax-wrapper w-full md:w-[85%] aspect-[3/4] overflow-hidden relative shadow-2xl border border-stone-200">
-                    <img
-                      src={event.imageMain}
-                      alt={event.title.replace("\n", " ")}
-                      className="w-full h-full object-cover will-change-transform opacity-95 hover:opacity-100 transition-opacity"
-                    />
-                  </div>
-                )}
+                  ) : (
+                    <div className="space-y-4">
+                      {event.primaryTime && (
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+                            <Clock className="w-4 h-4 text-stone-600" />
+                          </div>
+                          <span className="text-sm font-bold text-stone-900 tracking-wide">
+                            {event.primaryTime}
+                          </span>
+                        </div>
+                      )}
+                      {event.primaryLocation && (
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center">
+                            <MapPin className="w-4 h-4 text-stone-600" />
+                          </div>
+                          <span className="text-sm text-stone-700">
+                            {event.primaryLocation}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Description */}
+                  {event.description && (
+                    <p className="mt-6 text-sm text-stone-500 leading-relaxed">
+                      {event.description}
+                    </p>
+                  )}
+                </div>
               </div>
+            );
+          })}
+        </div>
 
-              {/* Content Side */}
-              <div className="w-full md:w-1/3 mx-auto flex flex-col items-center justify-center text-center space-y-6">
-                <p className="text-sm md:text-base font-sans tracking-[0.3em] uppercase text-stone-500 font-bold">
-                  {event.date}
-                </p>
-
-                <h2 className="text-4xl md:text-6xl font-serif text-stone-900 uppercase tracking-widest leading-tight font-bold whitespace-pre-line">
-                  {event.title}
-                </h2>
-
-                {event.subEvents ? (
-                  <div className="space-y-10 w-full max-w-md mx-auto pt-4">
-                    {event.subEvents.map((sub, idx) => (
-                      <div
-                        key={idx}
-                        className="flex flex-col items-center group"
-                      >
-                        <span className="font-sans text-xs font-bold text-stone-400 tracking-[0.2em] mb-2 uppercase">
-                          {sub.time}
-                        </span>
-                        <p className="font-serif text-2xl text-stone-800 font-medium mb-1">
-                          {sub.title}
-                        </p>
-                        <p className="font-sans text-[10px] tracking-widest text-stone-500 uppercase border-b border-stone-200 pb-1 group-hover:border-stone-800 transition-colors">
-                          {sub.location}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center gap-2 pt-4">
-                    {event.primaryTime && (
-                      <span className="font-sans text-xs font-bold text-stone-400 tracking-[0.2em] mb-1 uppercase">
-                        {event.primaryTime}
-                      </span>
-                    )}
-                    {event.primaryLocation && (
-                      <p className="font-serif italic text-stone-800 text-lg border-b border-stone-200 pb-1">
-                        {event.primaryLocation}
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {event.description && (
-                  <p className="font-sans text-xs text-stone-500 max-w-sm pt-4 leading-relaxed tracking-wide uppercase">
-                    {event.description}
-                  </p>
-                )}
-              </div>
-            </div>
-          );
-        })}
+        {/* Bottom Note */}
+        <div className="mt-16 text-center">
+          <p className="text-xs text-stone-400 tracking-widest uppercase">
+            We can't wait to celebrate with you
+          </p>
+        </div>
       </div>
     </section>
   );

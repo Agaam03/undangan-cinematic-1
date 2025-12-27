@@ -1,19 +1,33 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Lato } from "next/font/google";
+import { Cormorant_Garamond, Lato, Italianno, Playfair_Display } from "next/font/google";
 import { WEDDING_DATA } from "../data";
 import "./globals.css";
 import SmoothScroll from "@/SmoothScroll";
 
+// Original fonts for Hero section
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
-  variable: "--font-serif", // Sesuai dengan yang ada di globals.css
+  variable: "--font-serif",
 });
 
 const lato = Lato({
   subsets: ["latin"],
   weight: ["300", "400", "700"],
-  variable: "--font-sans", // Sesuai dengan yang ada di globals.css
+  variable: "--font-sans",
+});
+
+// Fancy wedding fonts for other sections
+const italianno = Italianno({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-script",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${lato.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${lato.variable} ${italianno.variable} ${playfair.variable}`}>
       <body>
         <div id="root">
           <SmoothScroll />

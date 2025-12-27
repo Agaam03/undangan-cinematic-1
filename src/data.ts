@@ -79,21 +79,26 @@ export const WEDDING_DATA: WeddingData = {
       }
     ]
   },
-  gallery: {
-    title: 'Captured Moments',
-     images: [
-      { src: 'https://picsum.photos/600/900?random=1', spanClass: 'col-span-1 row-span-2 md:col-span-1 md:row-span-2' },
-      { src: 'https://picsum.photos/900/600?random=2', spanClass: 'col-span-2 row-span-1 md:col-span-2 md:row-span-1' },
-      { src: 'https://picsum.photos/600/900?random=3', spanClass: 'col-span-1 row-span-2 md:col-span-1 md:row-span-2' },
-      { src: 'https://picsum.photos/600/600?random=4', spanClass: 'col-span-1 row-span-1 md:col-span-1 md:row-span-1' },
-      { src: 'https://picsum.photos/600/600?random=5', spanClass: 'col-span-1 row-span-1 md:col-span-1 md:row-span-1' },
-      { src: 'https://picsum.photos/600/600?random=6', spanClass: 'col-span-1 row-span-1 md:col-span-1 md:row-span-1' },
-      { src: 'https://picsum.photos/900/600?random=7', spanClass: 'col-span-2 row-span-1 md:col-span-2 md:row-span-1' },
-      { src: 'https://picsum.photos/600/600?random=8', spanClass: 'col-span-1 row-span-1 md:col-span-1 md:row-span-1' },
-      { src: 'https://picsum.photos/900/500?random=9', spanClass: 'col-span-2 row-span-1 md:col-span-2 md:row-span-1' },
-      { src: 'https://picsum.photos/900/500?random=10', spanClass: 'col-span-2 row-span-1 md:col-span-2 md:row-span-1' },
-    ]
-  },
+  gallery: [
+    // Block 1 (5 images)
+    { src: 'https://picsum.photos/600/900?random=1' },  // Row1: Portrait left
+    { src: 'https://picsum.photos/900/600?random=2' },  // Row1: Landscape right
+    { src: 'https://picsum.photos/600/900?random=3' },  // Row2: Portrait left
+    { src: 'https://picsum.photos/600/900?random=4' },  // Row2: Portrait right
+    { src: 'https://picsum.photos/900/500?random=5' },  // Row3: Full landscape
+    // Block 2 (5 images)
+    { src: 'https://picsum.photos/600/900?random=6' },
+    { src: 'https://picsum.photos/900/600?random=7' },
+    { src: 'https://picsum.photos/600/900?random=8' },
+    { src: 'https://picsum.photos/600/900?random=9' },
+    { src: 'https://picsum.photos/900/500?random=10' },
+    // Block 3 (5 images)
+    { src: 'https://picsum.photos/600/900?random=11' },
+    { src: 'https://picsum.photos/900/600?random=12' },
+    { src: 'https://picsum.photos/600/900?random=13' },
+    { src: 'https://picsum.photos/600/900?random=14' },
+    { src: 'https://picsum.photos/900/500?random=15' },
+  ],
   gift: {
     description: 'Your presence is the greatest gift. But if you wish to give more, we provide several options below.',
     accounts: [
@@ -116,5 +121,11 @@ export const WEDDING_DATA: WeddingData = {
       { platform: 'instagram', url: 'https://instagram.com' }
     ],
     backgroundImage: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1920&auto=format&fit=crop',
+  },
+  // Background Music Configuration
+  // Add your music URL here (supports mp3, wav, ogg, m4a)
+  music: {
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // Sample music for testing - replace with your own
+    autoPlay: true,
   },
 };

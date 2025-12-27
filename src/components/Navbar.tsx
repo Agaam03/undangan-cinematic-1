@@ -153,7 +153,7 @@ export const Navbar: React.FC = () => {
           className="pointer-events-auto text-stone-900 flex justify-between items-center w-full invisible"
         >
           {/* Logo */}
-          <div className="text-xl md:text-2xl font-serif font-bold tracking-tight shrink-0">
+          <div className="text-2xl md:text-3xl font-script tracking-tight shrink-0">
             <a href="#" className="hover:opacity-60 transition-opacity">
               {initials}
             </a>
@@ -188,7 +188,7 @@ export const Navbar: React.FC = () => {
       {isMobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="fixed inset-0 z-[100] bg-stone-50 flex flex-col items-center justify-center md:hidden"
+          className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center md:hidden"
         >
           {/* Close Button */}
           <button
@@ -203,7 +203,7 @@ export const Navbar: React.FC = () => {
             <span className="text-xs uppercase tracking-[0.5em] text-stone-400 font-bold mb-2">
               The Wedding of
             </span>
-            <span className=" text-[27px] md:text-3xl font-serif font-bold text-stone-900">
+            <span className="text-3xl md:text-4xl font-script text-stone-900">
               {fullNames}
             </span>
           </div>
@@ -215,7 +215,7 @@ export const Navbar: React.FC = () => {
                 key={item.name}
                 href={item.href}
                 onClick={(e) => scrollToSection(e, item.href)}
-                className="mobile-link text-3xl font-serif italic text-stone-900 hover:text-stone-400 transition-colors py-2"
+                className="mobile-link text-4xl font-script text-stone-900 hover:text-stone-400 transition-colors py-2"
               >
                 {item.name}
               </a>

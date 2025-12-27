@@ -2,24 +2,14 @@
 
 @theme {
   /* Override & Extend Colors */
-  --color-white: #F9F8F6;
+  --color-white: #fffdfc;
   --color-black: #000000;
-  
-  --color-stone-50: #F9F8F6;
-  --color-stone-100: #EFE9E3;
-  --color-stone-200: #D9CFC7;
-  --color-stone-300: #D9CFC7;
-  --color-stone-400: #C9B59C;
-  --color-stone-500: #C9B59C;
-  --color-stone-600: #C9B59C;
-  --color-stone-700: #C9B59C;
-  --color-stone-800: #C1856D;
-  --color-stone-900: #000000;
-  --color-stone-950: #000000;
 
   /* Font Mapping */
   --font-serif: var(--font-serif), ui-serif, Georgia, serif;
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--font-script), cursive;
+  --font-display: var(--font-display), ui-serif, Georgia, serif;
 }
 
 /* Base Style */
@@ -27,7 +17,57 @@ body {
   @apply bg-black text-white;
 }
 
+/* Decorative Background Pattern */
+.bg-ornament {
+  position: relative;
+}
+
+.bg-ornament::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(180, 160, 140, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(180, 160, 140, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 10%, rgba(160, 140, 120, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 50% 90%, rgba(160, 140, 120, 0.05) 0%, transparent 40%);
+}
+
+/* Subtle Paper Texture */
+.bg-paper-texture {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+}
+
+/* Decorative Corner Ornaments */
+.corner-ornament-tl::before,
+.corner-ornament-br::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0,100 Q50,50 100,100 Q50,50 100,0 Q50,50 0,0 Q50,50 0,100' fill='none' stroke='%23a0896e' stroke-width='0.5'/%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='%23a0896e' stroke-width='0.3'/%3E%3Ccircle cx='50' cy='50' r='10' fill='none' stroke='%23a0896e' stroke-width='0.3'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.corner-ornament-tl::before {
+  top: 20px;
+  left: 20px;
+}
+
+.corner-ornament-br::after {
+  bottom: 20px;
+  right: 20px;
+}
+
 @layer base {
+
   /* Global body html reset */
   html,
   body {

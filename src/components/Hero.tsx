@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMediaQuery } from "react-responsive";
@@ -17,7 +17,6 @@ interface TimeLeft {
 const Hero: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
 
   const calculateTimeLeft = (): TimeLeft => {
@@ -35,7 +34,7 @@ const Hero: React.FC = () => {
     return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   };
 
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
+  const [timeLeft, setTimeLeft] = React.useState<TimeLeft>(calculateTimeLeft());
 
   const eventDate = new Date(WEDDING_DATA.hero.targetDate);
   const day = eventDate.getDate();
@@ -49,7 +48,7 @@ const Hero: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // --- KODE GSAP (TIDAK DIUBAH SAMA SEKALI) ---
+  // --- GSAP Animations ---
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -117,26 +116,16 @@ const Hero: React.FC = () => {
       {/* --- BACKGROUND AREA --- */}
       <div className="hero-fixed-bg absolute inset-0 w-full h-full z-[-1] pointer-events-none overflow-hidden">
         <video
-          className={`w-full h-full object-cover transition-opacity duration-1000 ${
-            videoLoaded ? "opacity-100" : "opacity-0"
-          }`}
+          className="w-full h-full object-cover"
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
           poster={WEDDING_DATA.hero.posterUrl}
-          onLoadedData={() => setVideoLoaded(true)}
         >
           <source src={WEDDING_DATA.hero.videoUrl} />
         </video>
-
-        {!videoLoaded && (
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm"
-            style={{ backgroundImage: `url(${WEDDING_DATA.hero.posterUrl})` }}
-          />
-        )}
 
         {/* Cinematic Layers */}
         <div className="absolute inset-0 bg-black/30"></div>
@@ -193,7 +182,7 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* BOTTOM: Date Display (Sesuai request) */}
+        {/* BOTTOM: Date Display */}
         <div className="hero-bottom-bar w-full max-w-4xl mx-auto pb-6 mb-12 md:mb-0">
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
             {/* Design Date yang lebih menyatu */}

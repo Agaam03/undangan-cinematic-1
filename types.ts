@@ -76,10 +76,7 @@ export interface WeddingData {
     // Added posterUrl to fix type error in components/LoveStory.tsx
     posterUrl?: string;
   };
-  gallery: {
-    title: string;
-    images: GalleryItem[];
-  };
+  gallery: { src: string }[];
   gift: {
     description: string;
     accounts: BankAccount[];
@@ -99,5 +96,9 @@ export interface WeddingData {
     backgroundImage: string;
     // Added videoUrl to support properties provided in data.ts
     videoUrl?: string;
+  };
+  music?: {
+    url: string;
+    autoPlay: boolean;
   };
 }
